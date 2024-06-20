@@ -40,82 +40,39 @@
         </div>
 
         <h3>Highlights</h3>
-        {% for highlight in form.highlights %}
-            <div class="form-group">
-                {{ highlight.highlight.label }} {{ highlight.highlight(class_="form-control") }}
-            </div>
-        {% endfor %}
-
-        <h3>Education</h3>
-        {% for education in form.education %}
-            <div class="form-group">
-                {{ education.period.label }} {{ education.period(class_="form-control") }}
-            </div>
-            <div class="form-group">
-                {{ education.name_education.label }} {{ education.name_education(class_="form-control") }}
-            </div>
-            <div class="form-group">
-                {{ education.name_employer_client.label }} {{ education.name_employer_client(class_="form-control") }}
-            </div>
-            <div class="form-group">
-                {{ education.status.label }} {{ education.status(class_="form-control") }}
-            </div>
-        {% endfor %}
-
-        <h3>Courses</h3>
-        {% for course in form.courses %}
-            <div class="form-group">
-                {{ course.period.label }} {{ course.period(class_="form-control") }}
-            </div>
-            <div class="form-group">
-                {{ course.name_education.label }} {{ course.name_education(class_="form-control") }}
-            </div>
-            <div class="form-group">
-                {{ course.name_employer_client.label }} {{ course.name_employer_client(class_="form-control") }}
-            </div>
-            <div class="form-group">
-                {{ course.status.label }} {{ course.status(class_="form-control") }}
-            </div>
-        {% endfor %}
-
-        <h3>Work Experience</h3>
-        {% for work_experience in form.work_experience %}
-            <div class="form-group">
-                {{ work_experience.period.label }} {{ work_experience.period(class_="form-control") }}
-            </div>
-            <div class="form-group">
-                {{ work_experience.function_name.label }} {{ work_experience.function_name(class_="form-control") }}
-            </div>
-            <div class="form-group">
-                {{ work_experience.name_employer_client.label }} {{ work_experience.name_employer_client(class_="form-control") }}
-            </div>
-            <h4>Bullet Points</h4>
-            {% for bullet_point in work_experience.bullet_points %}
+        <div id="highlights">
+            {% for highlight in form.highlights %}
                 <div class="form-group">
-                    {{ bullet_point.bullet_point.label }} {{ bullet_point.bullet_point(class_="form-control") }}
+                    {{ highlight.highlight.label }} {{ highlight.highlight(class_="form-control") }}
+                    <button type="button" class="btn btn-danger remove-highlight">Remove</button>
                 </div>
             {% endfor %}
-        {% endfor %}
+        </div>
+        <button type="button" id="add-highlight" class="btn btn-secondary">Add Highlight</button>
 
-        <h3>Expertise Programming</h3>
-        {% for expertise in form.expertise_programming %}
-            <div class="form-group">
-                {{ expertise.expertise.label }} {{ expertise.expertise(class_="form-control") }}
-            </div>
-            <div class="form-group">
-                {{ expertise.level.label }} {{ expertise.level(class_="form-control") }}
-            </div>
-        {% endfor %}
+        <h3>Education</h3>
+        <div id="education">
+            {% for education in form.education %}
+                <div class="education-entry">
+                    <div class="form-group">
+                        {{ education.period.label }} {{ education.period(class_="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ education.name_education.label }} {{ education.name_education(class_="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ education.name_employer_client.label }} {{ education.name_employer_client(class_="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ education.status.label }} {{ education.status(class_="form-control") }}
+                    </div>
+                    <button type="button" class="btn btn-danger remove-education">Remove</button>
+                </div>
+            {% endfor %}
+        </div>
+        <button type="button" id="add-education" class="btn btn-secondary">Add Education</button>
 
-        <h3>Expertise Languages</h3>
-        {% for expertise in form.expertise_languages %}
-            <div class="form-group">
-                {{ expertise.expertise.label }} {{ expertise.expertise(class_="form-control") }}
-            </div>
-            <div class="form-group">
-                {{ expertise.level.label }} {{ expertise.level(class_="form-control") }}
-            </div>
-        {% endfor %}
+        <!-- Repeat similar blocks for Courses, Work Experience, Expertise Programming, and Expertise Languages -->
 
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
@@ -124,5 +81,50 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Highlight functionality
+        $('#add-highlight').click(function() {
+            let highlightForm = `<div class="form-group">
+                                    <input type="text" name="highlights-__prefix__-highlight" id="highlights-__prefix__-highlight" class="form-control">
+                                    <button type="button" class="btn btn-danger remove-highlight">Remove</button>
+                                </div>`;
+            $('#highlights').append(highlightForm.replace(/__prefix__/g, $('#highlights .form-group').length));
+        });
+
+        $(document).on('click', '.remove-highlight', function() {
+            $(this).closest('.form-group').remove();
+        });
+
+        // Education functionality
+        $('#add-education').click(function() {
+            let educationForm = `<div class="education-entry">
+                                    <div class="form-group">
+                                        <input type="text" name="education-__prefix__-period" id="education-__prefix__-period" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" name="education-__prefix__-name_education" id="education-__prefix__-name_education" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" name="education-__prefix__-name_employer_client" id="education-__prefix__-name_employer_client" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <select name="education-__prefix__-status" id="education-__prefix__-status" class="form-control">
+                                            <option value="Ongoing">Ongoing</option>
+                                            <option value="Finished">Finished</option>
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn btn-danger remove-education">Remove</button>
+                                </div>`;
+            $('#education').append(educationForm.replace(/__prefix__/g, $('#education .education-entry').length));
+        });
+
+        $(document).on('click', '.remove-education', function() {
+            $(this).closest('.education-entry').remove();
+        });
+
+        // Repeat similar blocks for Courses, Work Experience, Expertise Programming, and Expertise Languages
+    });
+</script>
 </body>
 </html>

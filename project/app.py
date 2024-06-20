@@ -6,7 +6,6 @@ import pprint
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
-app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['WTF_CSRF_ENABLED'] = False  # Disable CSRF protection
 
 @app.route('/', methods=['GET', 'POST'])
