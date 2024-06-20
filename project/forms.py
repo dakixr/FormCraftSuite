@@ -33,10 +33,10 @@ class ExpertiseForm(FlaskForm):
 class ProfileForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired()])
     surname = StringField('Surname', validators=[DataRequired()])
-    date_of_birth = DateField('Date of Birth', format='%d-%m-%Y', validators=[DataRequired()])
+    date_of_birth = DateField('Date of Birth', format='%Y-%m-%d', validators=[DataRequired()])
     city = StringField('City', validators=[DataRequired()])
     nationality = StringField('Nationality', validators=[DataRequired()])
-    availability = DateField('Availability', format='%d-%m-%Y', validators=[DataRequired()])
+    availability = DateField('Availability', format='%Y-%m-%d', validators=[DataRequired()])
     drivers_license = SelectField('Driver\'s License', choices=[('Yes', 'Yes'), ('No', 'No')])
     profile_pic = FileField('Profile Picture')
     profile_and_ambition = TextAreaField('Profile and Ambition', validators=[DataRequired()])
