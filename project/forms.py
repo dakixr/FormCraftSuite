@@ -27,10 +27,8 @@ class WorkExperienceForm(FlaskForm):
     bullet_points = FieldList(FormField(BulletPointForm), min_entries=4, max_entries=4)
 
 class ExpertiseForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
-    basic = SelectField('Basic', choices=[('', ''), ('X', 'X')])
-    good = SelectField('Good', choices=[('', ''), ('X', 'X')])
-    excellent = SelectField('Excellent', choices=[('', ''), ('X', 'X')])
+    expertise = StringField('Expertise', validators=[DataRequired()])
+    level = SelectField('Level', choices=[("1","1"), ("2", "2"), ("3", "3")])
 
 class ProfileForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired()])
@@ -38,7 +36,7 @@ class ProfileForm(FlaskForm):
     date_of_birth = DateField('Date of Birth', format='%d-%m-%Y', validators=[DataRequired()])
     city = StringField('City', validators=[DataRequired()])
     nationality = StringField('Nationality', validators=[DataRequired()])
-    availability = SelectField('Availability', choices=[('Full Time', 'Full Time'), ('Part Time', 'Part Time'), ('Other', 'Other')])
+    availability = DateField('Availability', format='%d-%m-%Y', validators=[DataRequired()])
     drivers_license = SelectField('Driver\'s License', choices=[('Yes', 'Yes'), ('No', 'No')])
     profile_pic = FileField('Profile Picture')
     profile_and_ambition = TextAreaField('Profile and Ambition', validators=[DataRequired()])

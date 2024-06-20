@@ -2,75 +2,127 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Form</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Profile Form</h1>
-        <form method="POST" enctype="multipart/form-data">
-            {{ form.hidden_tag() }}
-            
-            {{ form.first_name.label }} {{ form.first_name(size=20, class_="form-control") }}<br>
-            {{ form.surname.label }} {{ form.surname(size=20, class_="form-control") }}<br>
-            {{ form.date_of_birth.label }} {{ form.date_of_birth(class_="form-control") }}<br>
-            {{ form.city.label }} {{ form.city(size=20, class_="form-control") }}<br>
-            {{ form.nationality.label }} {{ form.nationality(size=20, class_="form-control") }}<br>
-            {{ form.availability.label }} {{ form.availability(class_="form-control") }}<br>
-            {{ form.drivers_license.label }} {{ form.drivers_license(class_="form-control") }}<br>
-            {{ form.profile_pic.label }} {{ form.profile_pic(class_="form-control-file") }}<br>
-            {{ form.profile_and_ambition.label }} {{ form.profile_and_ambition(class_="form-control") }}<br>
+<div class="container">
+    <h1 class="mt-5">Profile Form</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
 
-            <h3>Highlights</h3>
-            {% for highlight in form.highlights %}
-                {{ highlight.highlight.label }} {{ highlight.highlight(size=20, class_="form-control") }}<br>
+        <div class="form-group">
+            {{ form.first_name.label }} {{ form.first_name(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.surname.label }} {{ form.surname(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.date_of_birth.label }} {{ form.date_of_birth(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.city.label }} {{ form.city(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.nationality.label }} {{ form.nationality(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.availability.label }} {{ form.availability(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.drivers_license.label }} {{ form.drivers_license(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.profile_pic.label }} {{ form.profile_pic(class_="form-control-file") }}
+        </div>
+        <div class="form-group">
+            {{ form.profile_and_ambition.label }} {{ form.profile_and_ambition(class_="form-control") }}
+        </div>
+
+        <h3>Highlights</h3>
+        {% for highlight in form.highlights %}
+            <div class="form-group">
+                {{ highlight.highlight.label }} {{ highlight.highlight(class_="form-control") }}
+            </div>
+        {% endfor %}
+
+        <h3>Education</h3>
+        {% for education in form.education %}
+            <div class="form-group">
+                {{ education.period.label }} {{ education.period(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ education.name_education.label }} {{ education.name_education(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ education.name_employer_client.label }} {{ education.name_employer_client(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ education.status.label }} {{ education.status(class_="form-control") }}
+            </div>
+        {% endfor %}
+
+        <h3>Courses</h3>
+        {% for course in form.courses %}
+            <div class="form-group">
+                {{ course.period.label }} {{ course.period(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ course.name_education.label }} {{ course.name_education(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ course.name_employer_client.label }} {{ course.name_employer_client(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ course.status.label }} {{ course.status(class_="form-control") }}
+            </div>
+        {% endfor %}
+
+        <h3>Work Experience</h3>
+        {% for work_experience in form.work_experience %}
+            <div class="form-group">
+                {{ work_experience.period.label }} {{ work_experience.period(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ work_experience.function_name.label }} {{ work_experience.function_name(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ work_experience.name_employer_client.label }} {{ work_experience.name_employer_client(class_="form-control") }}
+            </div>
+            <h4>Bullet Points</h4>
+            {% for bullet_point in work_experience.bullet_points %}
+                <div class="form-group">
+                    {{ bullet_point.bullet_point.label }} {{ bullet_point.bullet_point(class_="form-control") }}
+                </div>
             {% endfor %}
+        {% endfor %}
 
-            <h3>Education</h3>
-            {% for edu in form.education %}
-                {{ edu.period.label }} {{ edu.period(size=20, class_="form-control") }}<br>
-                {{ edu.name_education.label }} {{ edu.name_education(size=20, class_="form-control") }}<br>
-                {{ edu.name_employer_client.label }} {{ edu.name_employer_client(size=20, class_="form-control") }}<br>
-                {{ edu.status.label }} {{ edu.status(class_="form-control") }}<br>
-            {% endfor %}
+        <h3>Expertise Programming</h3>
+        {% for expertise in form.expertise_programming %}
+            <div class="form-group">
+                {{ expertise.expertise.label }} {{ expertise.expertise(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ expertise.level.label }} {{ expertise.level(class_="form-control") }}
+            </div>
+        {% endfor %}
 
-            <h3>Courses</h3>
-            {% for course in form.courses %}
-                {{ course.period.label }} {{ course.period(size=20, class_="form-control") }}<br>
-                {{ course.name_education.label }} {{ course.name_education(size=20, class_="form-control") }}<br>
-                {{ course.name_employer_client.label }} {{ course.name_employer_client(size=20, class_="form-control") }}<br>
-                {{ course.status.label }} {{ course.status(class_="form-control") }}<br>
-            {% endfor %}
+        <h3>Expertise Languages</h3>
+        {% for expertise in form.expertise_languages %}
+            <div class="form-group">
+                {{ expertise.expertise.label }} {{ expertise.expertise(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ expertise.level.label }} {{ expertise.level(class_="form-control") }}
+            </div>
+        {% endfor %}
 
-            <h3>Work Experience</h3>
-            {% for work in form.work_experience %}
-                {{ work.period.label }} {{ work.period(size=20, class_="form-control") }}<br>
-                {{ work.function_name.label }} {{ work.function_name(size=20, class_="form-control") }}<br>
-                {{ work.name_employer_client.label }} {{ work.name_employer_client(size=20, class_="form-control") }}<br>
-                {% for bp in work.bullet_points %}
-                    {{ bp.bullet_point.label }} {{ bp.bullet_point(size=20, class_="form-control") }}<br>
-                {% endfor %}
-            {% endfor %}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
 
-            <h3>Expertise Programming</h3>
-            {% for exp in form.expertise_programming %}
-                {{ exp.name.label }} {{ exp.name(size=20, class_="form-control") }}<br>
-                {{ exp.basic.label }} {{ exp.basic(class_="form-control") }}<br>
-                {{ exp.good.label }} {{ exp.good(class_="form-control") }}<br>
-                {{ exp.excellent.label }} {{ exp.excellent(class_="form-control") }}<br>
-            {% endfor %}
-
-            <h3>Expertise Languages</h3>
-            {% for exp in form.expertise_languages %}
-                {{ exp.name.label }} {{ exp.name(size=20, class_="form-control") }}<br>
-                {{ exp.basic.label }} {{ exp.basic(class_="form-control") }}<br>
-                {{ exp.good.label }} {{ exp.good(class_="form-control") }}<br>
-                {{ exp.excellent.label }} {{ exp.excellent(class_="form-control") }}<br>
-            {% endfor %}
-
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
