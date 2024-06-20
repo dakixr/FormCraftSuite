@@ -1,5 +1,6 @@
-from docxtpl import DocxTemplate
 
+from docxtpl import DocxTemplate, InlineImage
+from docx.shared import Mm
 
 tpl = DocxTemplate("template.docx")
 
@@ -14,6 +15,7 @@ context = {
     "nationality": "Spanish",
     "availability": "Full Time",
     "drivers_license": "Yes",
+    "profile_pic":  InlineImage(tpl, 'pooo.png', height=Mm(40)),
     # Profile & Ambition
     "profile_and_ambition": "bla bla bla " * 30,
     "highlights": [f"This is my highlight {n}" for n in range(4)],
@@ -95,6 +97,7 @@ context = {
 }
 
 tpl.render(context)
+tpl.replace_media('dummy_profile_pic.png', 'pooo.png')
 tpl.save("generated_cv.docx")
 
 print("Successfully generated the CV!")
