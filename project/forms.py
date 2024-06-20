@@ -1,0 +1,50 @@
+from flask_wtf import FlaskForm
+from wtforms import StringField, DateField, SelectField, FileField, TextAreaField, FieldList, FormField
+from wtforms.validators import DataRequired
+
+class HighlightForm(FlaskForm):
+    highlight = StringField('Highlight', validators=[DataRequired()])
+
+class BulletPointForm(FlaskForm):
+    bullet_point = StringField('Bullet Point', validators=[DataRequired()])
+
+class EducationForm(FlaskForm):
+    period = StringField('Period', validators=[DataRequired()])
+    name_education = StringField('Name of Education', validators=[DataRequired()])
+    name_employer_client = StringField('Name of Employer/Client', validators=[DataRequired()])
+    status = SelectField('Status', choices=[('Ongoing', 'Ongoing'), ('Finished', 'Finished')])
+
+class CourseForm(FlaskForm):
+    period = StringField('Period', validators=[DataRequired()])
+    name_education = StringField('Name of Education', validators=[DataRequired()])
+    name_employer_client = StringField('Name of Employer/Client', validators=[DataRequired()])
+    status = SelectField('Status', choices=[('Ongoing', 'Ongoing'), ('Finished', 'Finished')])
+
+class WorkExperienceForm(FlaskForm):
+    period = StringField('Period', validators=[DataRequired()])
+    function_name = StringField('Function Name', validators=[DataRequired()])
+    name_employer_client = StringField('Name of Employer/Client', validators=[DataRequired()])
+    bullet_points = FieldList(FormField(BulletPointForm), min_entries=4, max_entries=4)
+
+class ExpertiseForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    basic = SelectField('Basic', choices=[('', ''), ('X', 'X')])
+    good = SelectField('Good', choices=[('', ''), ('X', 'X')])
+    excellent = SelectField('Excellent', choices=[('', ''), ('X', 'X')])
+
+class ProfileForm(FlaskForm):
+    first_name = StringField('First Name', validators=[DataRequired()])
+    surname = StringField('Surname', validators=[DataRequired()])
+    date_of_birth = DateField('Date of Birth', format='%d-%m-%Y', validators=[DataRequired()])
+    city = StringField('City', validators=[DataRequired()])
+    nationality = StringField('Nationality', validators=[DataRequired()])
+    availability = SelectField('Availability', choices=[('Full Time', 'Full Time'), ('Part Time', 'Part Time'), ('Other', 'Other')])
+    drivers_license = SelectField('Driver\'s License', choices=[('Yes', 'Yes'), ('No', 'No')])
+    profile_pic = FileField('Profile Picture')
+    profile_and_ambition = TextAreaField('Profile and Ambition', validators=[DataRequired()])
+    highlights = FieldList(FormField(HighlightForm), min_entries=4, max_entries=4)
+    education = FieldList(FormField(EducationForm), min_entries=1, max_entries=10)
+    courses = FieldList(FormField(CourseForm), min_entries=1, max_entries=10)
+    work_experience = FieldList(FormField(WorkExperienceForm), min_entries=1, max_entries=10)
+    expertise_programming = FieldList(FormField(ExpertiseForm), min_entries=3, max_entries=10)
+    expertise_languages = FieldList(FormField(ExpertiseForm), min_entries=3, max_entries=10)

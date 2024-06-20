@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Profile Form</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            
+            {{ form.first_name.label }} {{ form.first_name(size=20, class_="form-control") }}<br>
+            {{ form.surname.label }} {{ form.surname(size=20, class_="form-control") }}<br>
+            {{ form.date_of_birth.label }} {{ form.date_of_birth(class_="form-control") }}<br>
+            {{ form.city.label }} {{ form.city(size=20, class_="form-control") }}<br>
+            {{ form.nationality.label }} {{ form.nationality(size=20, class_="form-control") }}<br>
+            {{ form.availability.label }} {{ form.availability(class_="form-control") }}<br>
+            {{ form.drivers_license.label }} {{ form.drivers_license(class_="form-control") }}<br>
+            {{ form.profile_pic.label }} {{ form.profile_pic(class_="form-control-file") }}<br>
+            {{ form.profile_and_ambition.label }} {{ form.profile_and_ambition(class_="form-control") }}<br>
+
+            <h3>Highlights</h3>
+            {% for highlight in form.highlights %}
+                {{ highlight.highlight.label }} {{ highlight.highlight(size=20, class_="form-control") }}<br>
+            {% endfor %}
+
+            <h3>Education</h3>
+            {% for edu in form.education %}
+                {{ edu.period.label }} {{ edu.period(size=20, class_="form-control") }}<br>
+                {{ edu.name_education.label }} {{ edu.name_education(size=20, class_="form-control") }}<br>
+                {{ edu.name_employer_client.label }} {{ edu.name_employer_client(size=20, class_="form-control") }}<br>
+                {{ edu.status.label }} {{ edu.status(class_="form-control") }}<br>
+            {% endfor %}
+
+            <h3>Courses</h3>
+            {% for course in form.courses %}
+                {{ course.period.label }} {{ course.period(size=20, class_="form-control") }}<br>
+                {{ course.name_education.label }} {{ course.name_education(size=20, class_="form-control") }}<br>
+                {{ course.name_employer_client.label }} {{ course.name_employer_client(size=20, class_="form-control") }}<br>
+                {{ course.status.label }} {{ course.status(class_="form-control") }}<br>
+            {% endfor %}
+
+            <h3>Work Experience</h3>
+            {% for work in form.work_experience %}
+                {{ work.period.label }} {{ work.period(size=20, class_="form-control") }}<br>
+                {{ work.function_name.label }} {{ work.function_name(size=20, class_="form-control") }}<br>
+                {{ work.name_employer_client.label }} {{ work.name_employer_client(size=20, class_="form-control") }}<br>
+                {% for bp in work.bullet_points %}
+                    {{ bp.bullet_point.label }} {{ bp.bullet_point(size=20, class_="form-control") }}<br>
+                {% endfor %}
+            {% endfor %}
+
+            <h3>Expertise Programming</h3>
+            {% for exp in form.expertise_programming %}
+                {{ exp.name.label }} {{ exp.name(size=20, class_="form-control") }}<br>
+                {{ exp.basic.label }} {{ exp.basic(class_="form-control") }}<br>
+                {{ exp.good.label }} {{ exp.good(class_="form-control") }}<br>
+                {{ exp.excellent.label }} {{ exp.excellent(class_="form-control") }}<br>
+            {% endfor %}
+
+            <h3>Expertise Languages</h3>
+            {% for exp in form.expertise_languages %}
+                {{ exp.name.label }} {{ exp.name(size=20, class_="form-control") }}<br>
+                {{ exp.basic.label }} {{ exp.basic(class_="form-control") }}<br>
+                {{ exp.good.label }} {{ exp.good(class_="form-control") }}<br>
+                {{ exp.excellent.label }} {{ exp.excellent(class_="form-control") }}<br>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
