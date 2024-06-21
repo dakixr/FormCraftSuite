@@ -2,129 +2,247 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Form</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<div class="container">
-    <h1 class="mt-5">Profile Form</h1>
-    <form method="POST" enctype="multipart/form-data" action="/submit_form">
-        {{ form.hidden_tag() }}
+    <div class="container mt-5">
+        <h1 class="mb-4">Profile Form</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.csrf_token }}
 
-        <div class="form-group">
-            {{ form.first_name.label }} {{ form.first_name(class_="form-control") }}
-        </div>
-        <div class="form-group">
-            {{ form.surname.label }} {{ form.surname(class_="form-control") }}
-        </div>
-        <div class="form-group">
-            {{ form.date_of_birth.label }} {{ form.date_of_birth(class_="form-control") }}
-        </div>
-        <div class="form-group">
-            {{ form.city.label }} {{ form.city(class_="form-control") }}
-        </div>
-        <div class="form-group">
-            {{ form.nationality.label }} {{ form.nationality(class_="form-control") }}
-        </div>
-        <div class="form-group">
-            {{ form.availability.label }} {{ form.availability(class_="form-control") }}
-        </div>
-        <div class="form-group">
-            {{ form.drivers_license.label }} {{ form.drivers_license(class_="form-control") }}
-        </div>
-        <div class="form-group">
-            {{ form.profile_pic.label }} {{ form.profile_pic(class_="form-control-file") }}
-        </div>
-        <div class="form-group">
-            {{ form.profile_and_ambition.label }} {{ form.profile_and_ambition(class_="form-control") }}
-        </div>
-
-        <h3>Highlights</h3>
-        <div id="highlights">
-            {% for highlight in form.highlights %}
-                <div class="form-group">
-                    {{ highlight.highlight.label }} {{ highlight.highlight(class_="form-control") }}
-                    <button type="button" class="btn btn-danger remove-highlight">Remove</button>
+            <h2 class="mt-4">Personal Information</h2>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    {{ form.first_name.label(class="form-label") }}
+                    {{ form.first_name(class="form-control") }}
                 </div>
-            {% endfor %}
-        </div>
-        <button type="button" id="add-highlight" class="btn btn-secondary">Add Highlight</button>
-
-        <h3>Education</h3>
-        <div id="education">
-            {% for education in form.education %}
-                <div class="education-entry">
-                    <div class="form-group">
-                        {{ education.period.label }} {{ education.period(class_="form-control") }}
-                    </div>
-                    <div class="form-group">
-                        {{ education.name_education.label }} {{ education.name_education(class_="form-control") }}
-                    </div>
-                    <div class="form-group">
-                        {{ education.name_employer_client.label }} {{ education.name_employer_client(class_="form-control") }}
-                    </div>
-                    <div class="form-group">
-                        {{ education.status.label }} {{ education.status(class_="form-control") }}
-                    </div>
-                    <button type="button" class="btn btn-danger remove-education">Remove</button>
+                <div class="col-md-6">
+                    {{ form.surname.label(class="form-label") }}
+                    {{ form.surname(class="form-control") }}
                 </div>
-            {% endfor %}
-        </div>
-        <button type="button" id="add-education" class="btn btn-secondary">Add Education</button>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    {{ form.date_of_birth.label(class="form-label") }}
+                    {{ form.date_of_birth(class="form-control") }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.city.label(class="form-label") }}
+                    {{ form.city(class="form-control") }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.nationality.label(class="form-label") }}
+                    {{ form.nationality(class="form-control") }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    {{ form.availability.label(class="form-label") }}
+                    {{ form.availability(class="form-control") }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.drivers_license.label(class="form-label") }}
+                    {{ form.drivers_license(class="form-select") }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.profile_pic.label(class="form-label") }}
+                    {{ form.profile_pic(class="form-control") }}
+                </div>
+            </div>
+            <div class="mb-3">
+                {{ form.profile_and_ambition.label(class="form-label") }}
+                {{ form.profile_and_ambition(class="form-control", rows="4") }}
+            </div>
 
-        <!-- Repeat similar blocks for Courses, Work Experience, Expertise Programming, and Expertise Languages -->
+            <h2 class="mt-4">Highlights</h2>
+            <div id="highlights-container">
+                {% for highlight_form in form.highlights %}
+                    <div class="mb-3">
+                        {{ highlight_form.highlight.label(class="form-label") }}
+                        {{ highlight_form.highlight(class="form-control") }}
+                    </div>
+                {% endfor %}
+            </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</div>
+            <h2 class="mt-4">Education</h2>
+            <div id="education-container">
+                {% for education_form in form.education %}
+                    <div class="education-item card mb-3">
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    {{ education_form.period.label(class="form-label") }}
+                                    {{ education_form.period(class="form-control") }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ education_form.name_education.label(class="form-label") }}
+                                    {{ education_form.name_education(class="form-control") }}
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    {{ education_form.name_employer_client.label(class="form-label") }}
+                                    {{ education_form.name_employer_client(class="form-control") }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ education_form.status.label(class="form-label") }}
+                                    {{ education_form.status(class="form-select") }}
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-danger remove-education">Remove</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="button" class="btn btn-primary mb-3" id="add-education">Add Education</button>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-    $(document).ready(function() {
-        // Highlight functionality
-        $('#add-highlight').click(function() {
-            let highlightForm = `<div class="form-group">
-                                    <input type="text" name="highlights-__prefix__-highlight" id="highlights-__prefix__-highlight" class="form-control">
-                                    <button type="button" class="btn btn-danger remove-highlight">Remove</button>
-                                </div>`;
-            $('#highlights').append(highlightForm.replace(/__prefix__/g, $('#highlights .form-group').length));
+            <h2 class="mt-4">Courses</h2>
+            <div id="courses-container">
+                {% for course_form in form.courses %}
+                    <div class="course-item card mb-3">
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    {{ course_form.period.label(class="form-label") }}
+                                    {{ course_form.period(class="form-control") }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ course_form.name_education.label(class="form-label") }}
+                                    {{ course_form.name_education(class="form-control") }}
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    {{ course_form.name_employer_client.label(class="form-label") }}
+                                    {{ course_form.name_employer_client(class="form-control") }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ course_form.status.label(class="form-label") }}
+                                    {{ course_form.status(class="form-select") }}
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-danger remove-course">Remove</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="button" class="btn btn-primary mb-3" id="add-course">Add Course</button>
+
+            <h2 class="mt-4">Work Experience</h2>
+            <div id="work-experience-container">
+                {% for work_experience_form in form.work_experience %}
+                    <div class="work-experience-item card mb-3">
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    {{ work_experience_form.period.label(class="form-label") }}
+                                    {{ work_experience_form.period(class="form-control") }}
+                                </div>
+                                <div class="col-md-4">
+                                    {{ work_experience_form.function_name.label(class="form-label") }}
+                                    {{ work_experience_form.function_name(class="form-control") }}
+                                </div>
+                                <div class="col-md-4">
+                                    {{ work_experience_form.name_employer_client.label(class="form-label") }}
+                                    {{ work_experience_form.name_employer_client(class="form-control") }}
+                                </div>
+                            </div>
+                            <h3>Bullet Points</h3>
+                            {% for bullet_point_form in work_experience_form.bullet_points %}
+                                <div class="mb-3">
+                                    {{ bullet_point_form.bullet_point.label(class="form-label") }}
+                                    {{ bullet_point_form.bullet_point(class="form-control") }}
+                                </div>
+                            {% endfor %}
+                            <button type="button" class="btn btn-danger remove-work-experience">Remove</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="button" class="btn btn-primary mb-3" id="add-work-experience">Add Work Experience</button>
+
+            <h2 class="mt-4">Programming Expertise</h2>
+            <div id="programming-expertise-container">
+                {% for expertise_form in form.expertise_programming %}
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            {{ expertise_form.expertise.label(class="form-label") }}
+                            {{ expertise_form.expertise(class="form-control") }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ expertise_form.level.label(class="form-label") }}
+                            {{ expertise_form.level(class="form-select") }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <h2 class="mt-4">Language Expertise</h2>
+            <div id="language-expertise-container">
+                {% for expertise_form in form.expertise_languages %}
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            {{ expertise_form.expertise.label(class="form-label") }}
+                            {{ expertise_form.expertise(class="form-control") }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ expertise_form.level.label(class="form-label") }}
+                            {{ expertise_form.level(class="form-select") }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="btn btn-success mt-4">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        function addEducation() {
+            const container = document.getElementById('education-container');
+            const newEducation = container.children[0].cloneNode(true);
+            newEducation.querySelectorAll('input, select').forEach(input => input.value = '');
+            container.appendChild(newEducation);
+        }
+
+        function addCourse() {
+            const container = document.getElementById('courses-container');
+            const newCourse = container.children[0].cloneNode(true);
+            newCourse.querySelectorAll('input, select').forEach(input => input.value = '');
+            container.appendChild(newCourse);
+        }
+
+        function addWorkExperience() {
+            const container = document.getElementById('work-experience-container');
+            const newWorkExperience = container.children[0].cloneNode(true);
+            newWorkExperience.querySelectorAll('input, select').forEach(input => input.value = '');
+            container.appendChild(newWorkExperience);
+        }
+
+        document.getElementById('add-education').addEventListener('click', addEducation);
+        document.getElementById('add-course').addEventListener('click', addCourse);
+        document.getElementById('add-work-experience').addEventListener('click', addWorkExperience);
+
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('remove-education')) {
+                if (document.querySelectorAll('.education-item').length > 1) {
+                    e.target.closest('.education-item').remove();
+                }
+            }
+            if (e.target && e.target.classList.contains('remove-course')) {
+                if (document.querySelectorAll('.course-item').length > 1) {
+                    e.target.closest('.course-item').remove();
+                }
+            }
+            if (e.target && e.target.classList.contains('remove-work-experience')) {
+                if (document.querySelectorAll('.work-experience-item').length > 1) {
+                    e.target.closest('.work-experience-item').remove();
+                }
+            }
         });
-
-        $(document).on('click', '.remove-highlight', function() {
-            $(this).closest('.form-group').remove();
-        });
-
-        // Education functionality
-        $('#add-education').click(function() {
-            let educationForm = `<div class="education-entry">
-                                    <div class="form-group">
-                                        <input type="text" name="education-__prefix__-period" id="education-__prefix__-period" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" name="education-__prefix__-name_education" id="education-__prefix__-name_education" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" name="education-__prefix__-name_employer_client" id="education-__prefix__-name_employer_client" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <select name="education-__prefix__-status" id="education-__prefix__-status" class="form-control">
-                                            <option value="Ongoing">Ongoing</option>
-                                            <option value="Finished">Finished</option>
-                                        </select>
-                                    </div>
-                                    <button type="button" class="btn btn-danger remove-education">Remove</button>
-                                </div>`;
-            $('#education').append(educationForm.replace(/__prefix__/g, $('#education .education-entry').length));
-        });
-
-        $(document).on('click', '.remove-education', function() {
-            $(this).closest('.education-entry').remove();
-        });
-
-        // Repeat similar blocks for Courses, Work Experience, Expertise Programming, and Expertise Languages
-    });
-</script>
+    </script>
 </body>
 </html>
