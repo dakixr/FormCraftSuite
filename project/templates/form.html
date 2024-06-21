@@ -60,12 +60,15 @@
             <h2 class="mt-4">Highlights</h2>
             <div id="highlights-container">
                 {% for highlight_form in form.highlights %}
-                    <div class="mb-3">
-                        {{ highlight_form.highlight.label(class="form-label") }}
-                        {{ highlight_form.highlight(class="form-control") }}
+                    <div class="highlight-item mb-3">
+                        <div class="input-group">
+                            {{ highlight_form.highlight(class="form-control", placeholder="Enter a highlight") }}
+                            <button type="button" class="btn btn-danger remove-highlight">Remove</button>
+                        </div>
                     </div>
                 {% endfor %}
             </div>
+            <button type="button" class="btn btn-primary mb-3" id="add-highlight">Add Highlight</button>
 
             <h2 class="mt-4">Education</h2>
             <div id="education-container">
@@ -201,6 +204,19 @@
     </div>
 
     <script>
+        function addHighlight() {
+            const container = document.getElementById('highlights-container');
+            const newHighlight = document.createElement('div');
+            newHighlight.className = 'highlight-item mb-3';
+            newHighlight.innerHTML = `
+                <div class="input-group">
+                    <input class="form-control" name="highlights-${container.children.length}-highlight" placeholder="Enter a highlight" type="text">
+                    <button type="button" class="btn btn-danger remove-highlight">Remove</button>
+                </div>
+            `;
+            container.appendChild(newHighlight);
+        }
+
         function addEducation() {
             const container = document.getElementById('education-container');
             const newEducation = container.children[0].cloneNode(true);
@@ -222,11 +238,17 @@
             container.appendChild(newWorkExperience);
         }
 
+        document.getElementById('add-highlight').addEventListener('click', addHighlight);
         document.getElementById('add-education').addEventListener('click', addEducation);
         document.getElementById('add-course').addEventListener('click', addCourse);
         document.getElementById('add-work-experience').addEventListener('click', addWorkExperience);
 
         document.addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('remove-highlight')) {
+                if (document.querySelectorAll('.highlight-item').length > 1) {
+                    e.target.closest('.highlight-item').remove();
+                }
+            }
             if (e.target && e.target.classList.contains('remove-education')) {
                 if (document.querySelectorAll('.education-item').length > 1) {
                     e.target.closest('.education-item').remove();
