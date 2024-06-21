@@ -1,0 +1,45 @@
+{
+  "first_name": "Daniel",
+  "surname": "Rodr\u00edguez Mariblanca",
+  "date_of_birth": "21-06-2024",
+  "city": "Luxembourg",
+  "nationality": "Spanish",
+  "availability": "21-06-2024",
+  "drivers_license": "Yes",
+  "profile_and_ambition": "asd",
+  "highlights": ["asd", null, null, null],
+  "education": [
+    {
+      "period": "asd",
+      "name_education": "asd",
+      "name_employer_client": "asd",
+      "status": "Ongoing"
+    }
+  ],
+  "courses": [
+    {
+      "period": null,
+      "name_education": null,
+      "name_employer_client": null,
+      "status": null
+    }
+  ],
+  "work_experience": [
+    {
+      "period": null,
+      "function_name": null,
+      "name_employer_client": null,
+      "bullet_points": [null, null, null, null]
+    }
+  ],
+  "expertise_programming": [
+    { "expertise": null, "level": null },
+    { "expertise": null, "level": null },
+    { "expertise": null, "level": null }
+  ],
+  "expertise_languages": [
+    { "expertise": null, "level": null },
+    { "expertise": null, "level": null },
+    { "expertise": null, "level": null }
+  ]
+}
