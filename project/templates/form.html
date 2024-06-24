@@ -172,47 +172,46 @@
             </div>
             <button type="button" class="btn btn-primary mb-3" id="add-work-experience">Add Work Experience</button>
 
-            <h2 class="mt-4">Programming Expertise</h2>
-            <div id="programming-expertise-container">
-                {% for expertise_form in form.expertise_programming %}
-                    <div class="expertise-item row mb-3">
-                        <div class="col-md-7">
-                            {{ expertise_form.expertise.label(class="form-label") }}
-                            {{ expertise_form.expertise(class="form-control") }}
-                        </div>
-                        <div class="col-md-3">
-                            {{ expertise_form.level.label(class="form-label") }}
-                            {{ expertise_form.level(class="form-select") }}
-                        </div>
-                        <div class="col-md-2">
-                            <label class="form-label">&nbsp;</label>
-                            <button type="button" class="btn btn-danger remove-expertise form-control">Remove</button>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-            <button type="button" class="btn btn-primary mb-3" id="add-programming-expertise">Add Programming Expertise</button>
 
-            <h2 class="mt-4">Language Expertise</h2>
-            <div id="language-expertise-container">
-                {% for expertise_form in form.expertise_languages %}
-                    <div class="expertise-item row mb-3">
-                        <div class="col-md-7">
-                            {{ expertise_form.expertise.label(class="form-label") }}
-                            {{ expertise_form.expertise(class="form-control") }}
-                        </div>
-                        <div class="col-md-3">
-                            {{ expertise_form.level.label(class="form-label") }}
-                            {{ expertise_form.level(class="form-select") }}
-                        </div>
-                        <div class="col-md-2">
-                            <label class="form-label">&nbsp;</label>
-                            <button type="button" class="btn btn-danger remove-expertise form-control">Remove</button>
+            <h2 class="mt-4">Expertise Sections</h2>
+            <div id="expertise-sections-container">
+                {% for section in form.expertise_sections %}
+                    <div class="expertise-section card mb-3">
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control section-title" name="expertise_sections-{{ loop.index0 }}-title" value="{{ section.title.data }}" placeholder="Section Title (e.g., Programming, Languages)">
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-danger remove-section form-control">Remove Section</button>
+                                </div>
+                            </div>
+                            <div class="expertise-items-container">
+                                {% for expertise_item in section.items %}
+                                    <div class="expertise-item row mb-3">
+                                        <div class="col-md-7">
+                                            <input type="text" class="form-control" name="expertise_sections-{{ loop.parent.index0 }}-items-{{ loop.index0 }}-expertise" value="{{ expertise_item.expertise.data }}" placeholder="Expertise (e.g., Python, English)">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select class="form-select" name="expertise_sections-{{ loop.parent.index0 }}-items-{{ loop.index0 }}-level">
+                                                <option value="">Select Level</option>
+                                                <option value="1" {% if expertise_item.level.data == '1' %}selected{% endif %}>1</option>
+                                                <option value="2" {% if expertise_item.level.data == '2' %}selected{% endif %}>2</option>
+                                                <option value="3" {% if expertise_item.level.data == '3' %}selected{% endif %}>3</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="button" class="btn btn-danger remove-expertise form-control">Remove</button>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <button type="button" class="btn btn-secondary add-expertise mb-3">Add Expertise</button>
                         </div>
                     </div>
                 {% endfor %}
             </div>
-            <button type="button" class="btn btn-primary mb-3" id="add-language-expertise">Add Language Expertise</button>
+            <button type="button" class="btn btn-primary mb-3" id="add-expertise-section">Add Expertise Section</button>
 
             <button type="submit" class="btn btn-success mt-4">Submit</button>
         </form>
@@ -271,10 +270,50 @@
             container.appendChild(newBulletPoint);
         }
 
-        function addExpertise(containerId) {
-            const container = document.getElementById(containerId);
-            const newExpertise = container.children[0].cloneNode(true);
-            newExpertise.querySelectorAll('input, select').forEach(input => input.value = '');
+        function addExpertiseSection() {
+            const container = document.getElementById('expertise-sections-container');
+            const sectionIndex = container.children.length;
+            const newSection = document.createElement('div');
+            newSection.className = 'expertise-section card mb-3';
+            newSection.innerHTML = `
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-10">
+                            <input type="text" class="form-control section-title" name="expertise_sections-${sectionIndex}-title" placeholder="Section Title (e.g., Programming, Languages)">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-danger remove-section form-control">Remove Section</button>
+                        </div>
+                    </div>
+                    <div class="expertise-items-container"></div>
+                    <button type="button" class="btn btn-secondary add-expertise mb-3">Add Expertise</button>
+                </div>
+            `;
+            container.appendChild(newSection);
+        }
+
+        function addExpertise(section) {
+            const container = section.querySelector('.expertise-items-container');
+            const sectionIndex = Array.from(section.parentNode.children).indexOf(section);
+            const itemIndex = container.children.length;
+            const newExpertise = document.createElement('div');
+            newExpertise.className = 'expertise-item row mb-3';
+            newExpertise.innerHTML = `
+                <div class="col-md-7">
+                    <input type="text" class="form-control" name="expertise_sections-${sectionIndex}-items-${itemIndex}-expertise" placeholder="Expertise (e.g., Python, English)">
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" name="expertise_sections-${sectionIndex}-items-${itemIndex}-level">
+                        <option value="">Select Level</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-danger remove-expertise form-control">Remove</button>
+                </div>
+            `;
             container.appendChild(newExpertise);
         }
 
@@ -282,8 +321,7 @@
         document.getElementById('add-education').addEventListener('click', addEducation);
         document.getElementById('add-course').addEventListener('click', addCourse);
         document.getElementById('add-work-experience').addEventListener('click', addWorkExperience);
-        document.getElementById('add-programming-expertise').addEventListener('click', () => addExpertise('programming-expertise-container'));
-        document.getElementById('add-language-expertise').addEventListener('click', () => addExpertise('language-expertise-container'));
+        document.getElementById('add-expertise-section').addEventListener('click', addExpertiseSection);
 
         document.addEventListener('click', function(e) {
             if (e.target && e.target.classList.contains('remove-highlight')) {
@@ -319,6 +357,21 @@
                 const expertiseContainer = e.target.closest('.row').parentElement;
                 if (expertiseContainer.children.length > 1) {
                     e.target.closest('.expertise-item').remove();
+                }
+            }
+            if (e.target && e.target.classList.contains('add-expertise')) {
+                addExpertise(e.target.closest('.expertise-section'));
+            }
+            if (e.target && e.target.classList.contains('remove-expertise')) {
+                const expertiseContainer = e.target.closest('.expertise-items-container');
+                if (expertiseContainer.children.length > 1) {
+                    e.target.closest('.expertise-item').remove();
+                }
+            }
+            if (e.target && e.target.classList.contains('remove-section')) {
+                const sectionsContainer = document.getElementById('expertise-sections-container');
+                if (sectionsContainer.children.length > 1) {
+                    e.target.closest('.expertise-section').remove();
                 }
             }
         });
