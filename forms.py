@@ -11,13 +11,13 @@ class BulletPointForm(FlaskForm):
 class EducationForm(FlaskForm):
     period = StringField('Period', validators=[DataRequired()])
     name_education = StringField('Name of Education', validators=[DataRequired()])
-    name_employer_client = StringField('Name of Employer/Client', validators=[DataRequired()])
+    name_employer_client = StringField('Name of School', validators=[DataRequired()])
     status = SelectField('Status', choices=[('Ongoing', 'Ongoing'), ('Finished', 'Finished')])
 
 class CourseForm(FlaskForm):
     period = StringField('Period', validators=[DataRequired()])
     name_education = StringField('Name of Education', validators=[DataRequired()])
-    name_employer_client = StringField('Name of Employer/Client', validators=[DataRequired()])
+    name_employer_client = StringField('Name of School', validators=[DataRequired()])
     status = SelectField('Status', choices=[('Ongoing', 'Ongoing'), ('Finished', 'Finished')])
 
 class WorkExperienceForm(FlaskForm):
