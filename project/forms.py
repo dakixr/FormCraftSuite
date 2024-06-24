@@ -24,11 +24,15 @@ class WorkExperienceForm(FlaskForm):
     period = StringField('Period', validators=[DataRequired()])
     function_name = StringField('Function Name', validators=[DataRequired()])
     name_employer_client = StringField('Name of Employer/Client', validators=[DataRequired()])
-    bullet_points = FieldList(FormField(BulletPointForm), min_entries=4, max_entries=4)
+    bullet_points = FieldList(FormField(BulletPointForm), min_entries=1, max_entries=10)
 
 class ExpertiseForm(FlaskForm):
     expertise = StringField('Expertise', validators=[DataRequired()])
     level = SelectField('Level', choices=[("1","1"), ("2", "2"), ("3", "3")])
+
+class ExpertiseSectionForm(FlaskForm):
+    title = StringField('Section Title', validators=[DataRequired()])
+    items = FieldList(FormField(ExpertiseForm), min_entries=1, max_entries=10)
 
 class ProfileForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired()])
@@ -40,9 +44,8 @@ class ProfileForm(FlaskForm):
     drivers_license = SelectField('Driver\'s License', choices=[('Yes', 'Yes'), ('No', 'No')])
     profile_pic = FileField('Profile Picture')
     profile_and_ambition = TextAreaField('Profile and Ambition', validators=[DataRequired()])
-    highlights = FieldList(FormField(HighlightForm), min_entries=4, max_entries=4)
+    highlights = FieldList(FormField(HighlightForm), min_entries=1, max_entries=10)
     education = FieldList(FormField(EducationForm), min_entries=1, max_entries=10)
     courses = FieldList(FormField(CourseForm), min_entries=1, max_entries=10)
     work_experience = FieldList(FormField(WorkExperienceForm), min_entries=1, max_entries=10)
-    expertise_programming = FieldList(FormField(ExpertiseForm), min_entries=3, max_entries=10)
-    expertise_languages = FieldList(FormField(ExpertiseForm), min_entries=3, max_entries=10)
+    expertise_sections = FieldList(FormField(ExpertiseSectionForm), min_entries=1, max_entries=5)

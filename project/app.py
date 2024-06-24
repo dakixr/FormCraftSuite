@@ -12,7 +12,7 @@ def index():
     return render_template("form.html", form=ProfileForm())
 
 
-@app.route("/submit_form", methods=["POST"])
+@app.route("/", methods=["POST"])
 def submit_form():
     form = ProfileForm()
 
@@ -54,31 +54,30 @@ def submit_form():
             }
             for work in form.work_experience
         ],
-        "expertise_programming": [
-            {"expertise": exp.expertise.data, "level": exp.level.data}
-            for exp in form.expertise_programming
-        ],
-        "expertise_languages": [
-            {"expertise": exp.expertise.data, "level": exp.level.data}
-            for exp in form.expertise_languages
+        "expertise_sections": [
+            {
+                "title": section.title.data,
+                "items": [
+                    {"expertise": item.expertise.data, "level": item.level.data}
+                    for item in section.items
+                ]
+            }
+            for section in form.expertise_sections
         ],
     }
 
-    # Handle file upload
+    # # Handle file upload
     # if form.profile_pic.data:
-    #     profile_pic = form.profile_pic.data
-    #     filename = secure_filename(profile_pic.filename)
-    #     profile_pic.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    #     filename = secure_filename(form.profile_pic.data.filename)
+    #     form.profile_pic.data.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     #     form_data['profile_pic'] = filename
 
-    # Simulating save operation
-    with open("data.json", "+w") as f:
-        json.dump(form_data, fp=f)
+    # Save form_data to a file or database
+    # For example, saving to a JSON file:
+    with open('form_data.json', 'w') as f:
+        json.dump(form_data, f, indent=2)
 
-    flash("Form submitted successfully!", "success")
-    print("Olee")
-
-    return redirect(url_for("index"))
+    return "Form submitted successfully!"
 
 
 if __name__ == "__main__":
