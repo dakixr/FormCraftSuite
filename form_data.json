@@ -7,64 +7,48 @@
   "availability": "2024-06-24",
   "drivers_license": "Yes",
   "profile_pic": "<FileStorage: '' ('application/octet-stream')>",
-  "profile_and_ambition": "HUUUUUUUUUUUUU",
+  "profile_and_ambition": "HUHUUHUH",
   "highlights": [
     {
-      "highlight": "high"
-    },
-    {
-      "highlight": "high 2"
+      "highlight": "first high"
     }
   ],
   "education": [
     {
       "period": "1999 - 2024",
-      "name_education": "Daniel Rodr\u00edguez Mariblanca",
-      "name_employer_client": "Daniel Rodr\u00edguez Mariblanca",
+      "name_education": "aa",
+      "name_employer_client": "aa",
+      "status": "Ongoing"
+    },
+    {
+      "period": "bb",
+      "name_education": "bbb",
+      "name_employer_client": "bbb",
       "status": "Ongoing"
     }
   ],
   "courses": [
     {
-      "period": "1999 - 2024",
-      "name_education": "Life",
-      "name_employer_client": "mom",
+      "period": "ddd",
+      "name_education": "ddd",
+      "name_employer_client": "ddd",
       "status": "Ongoing"
+    },
+    {
+      "period": "asd",
+      "name_education": "asd",
+      "name_employer_client": "asd",
+      "status": "Completed"
     }
   ],
   "work_experience": [
     {
-      "period": "1999 - 2024",
-      "function_name": "The best ever",
-      "name_employer_client": "Daniel Rodr\u00edguez Mariblanca",
+      "period": "aaaaaaaaaaaa",
+      "function_name": "aaaaaaa",
+      "name_employer_client": "aaaaaaaa",
       "bullet_points": [
         {
-          "bullet_point": "aaa"
-        },
-        {
-          "bullet_point": "bbb"
-        },
-        {
-          "bullet_point": "ccc"
-        }
-      ]
-    },
-    {
-      "period": "qqqq",
-      "function_name": "qqqqq",
-      "name_employer_client": "qqqqqqqq",
-      "bullet_points": [
-        {
-          "bullet_point": "ddd"
-        },
-        {
-          "bullet_point": "eee"
-        },
-        {
-          "bullet_point": "fff"
-        },
-        {
-          "bullet_point": "ggg"
+          "bullet_point": "aa"
         }
       ]
     }
@@ -75,20 +59,7 @@
       "items": [
         {
           "expertise": "Python",
-          "level": "3"
-        },
-        {
-          "expertise": "Java",
-          "level": "2"
-        }
-      ]
-    },
-    {
-      "title": "Others",
-      "items": [
-        {
-          "expertise": "Sleep",
-          "level": "3"
+          "level": "1"
         }
       ]
     }

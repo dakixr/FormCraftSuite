@@ -274,17 +274,78 @@
 
         function addEducation() {
             const container = document.getElementById('education-container');
-            const newEducation = container.children[0].cloneNode(true);
-            newEducation.querySelectorAll('input, select').forEach(input => input.value = '');
+            const educationIndex = container.children.length;
+            const newEducation = document.createElement('div');
+            newEducation.className = 'education-item card';
+            newEducation.innerHTML = `
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="education-${educationIndex}-period" class="form-label">Period</label>
+                            <input type="text" class="form-control" id="education-${educationIndex}-period" name="education-${educationIndex}-period">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="education-${educationIndex}-name_education" class="form-label">Name Education</label>
+                            <input type="text" class="form-control" id="education-${educationIndex}-name_education" name="education-${educationIndex}-name_education">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="education-${educationIndex}-name_employer_client" class="form-label">Name Employer/Client</label>
+                            <input type="text" class="form-control" id="education-${educationIndex}-name_employer_client" name="education-${educationIndex}-name_employer_client">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="education-${educationIndex}-status" class="form-label">Status</label>
+                            <select class="form-select" id="education-${educationIndex}-status" name="education-${educationIndex}-status">
+                                <option value="">Select Status</option>
+                                <option value="Ongoing">Ongoing</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-outline-danger remove-btn remove-education">Remove</button>
+                </div>
+            `;
             container.appendChild(newEducation);
         }
-
+        
         function addCourse() {
             const container = document.getElementById('courses-container');
-            const newCourse = container.children[0].cloneNode(true);
-            newCourse.querySelectorAll('input, select').forEach(input => input.value = '');
+            const courseIndex = container.children.length;
+            const newCourse = document.createElement('div');
+            newCourse.className = 'course-item card';
+            newCourse.innerHTML = `
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="courses-${courseIndex}-period" class="form-label">Period</label>
+                            <input type="text" class="form-control" id="courses-${courseIndex}-period" name="courses-${courseIndex}-period">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="courses-${courseIndex}-name_education" class="form-label">Name Education</label>
+                            <input type="text" class="form-control" id="courses-${courseIndex}-name_education" name="courses-${courseIndex}-name_education">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="courses-${courseIndex}-name_employer_client" class="form-label">Name Employer/Client</label>
+                            <input type="text" class="form-control" id="courses-${courseIndex}-name_employer_client" name="courses-${courseIndex}-name_employer_client">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="courses-${courseIndex}-status" class="form-label">Status</label>
+                            <select class="form-select" id="courses-${courseIndex}-status" name="courses-${courseIndex}-status">
+                                <option value="">Select Status</option>
+                                <option value="Ongoing">Ongoing</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-outline-danger remove-btn remove-course">Remove</button>
+                </div>
+            `;
             container.appendChild(newCourse);
         }
+        
 
         function addWorkExperience() {
             const container = document.getElementById('work-experience-container');
