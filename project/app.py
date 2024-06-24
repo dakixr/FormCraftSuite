@@ -1,7 +1,5 @@
 import io
-import os
 
-from werkzeug.utils import secure_filename
 from flask import Flask, render_template, send_file
 from docxtpl import DocxTemplate, InlineImage
 from docx.shared import Mm
@@ -9,9 +7,8 @@ from docx.shared import Mm
 from forms import ProfileForm
 
 app = Flask(__name__)
-app.secret_key = "your_secret_key"
+app.secret_key = "234hj32v4k32b4jb32lj4b32lj4"
 app.config["WTF_CSRF_ENABLED"] = False  # Disable CSRF protection
-app.config["UPLOAD_FOLDER"] = os.path.join(app.root_path, "media")
 
 
 @app.route("/", methods=["GET"])
@@ -26,8 +23,6 @@ def submit_form():
 
     # Parse data
     form_data = parse_form_data(form_data=form.data, tpl=tpl)
-    # with open("form_data.json", "w") as f:
-    #     json.dump(form_data, f, indent=2, default=str)
 
     # Generate CV
     tpl.render(form_data)
@@ -44,11 +39,9 @@ def submit_form():
 def parse_form_data(form_data, tpl):
     # Handle file upload
     profile_pic = form_data.get("profile_pic")
-    form_data["profile_pic"] = None
-    if profile_pic:
-        filename = secure_filename(profile_pic.filename)
-        profile_pic.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-        form_data["profile_pic"] = InlineImage(tpl, filename, height=Mm(40))
+    form_data["profile_pic"] = (
+        InlineImage(tpl, profile_pic, height=Mm(40)) if profile_pic else None
+    )
 
     # Transform highlights
     form_data["highlights"] = [e.get("highlight") for e in form_data["highlights"]]
@@ -81,4 +74,4 @@ def parse_form_data(form_data, tpl):
 
 
 if __name__ == "__main__":
-    app.run(port=8000, debug=True)
+    app.run(port=8000)
