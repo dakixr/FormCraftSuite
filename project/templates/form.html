@@ -225,7 +225,7 @@
                             <div class="card-body">
                                 <div class="row mb-3">
                                     <div class="col-md-10">
-                                        <input type="text" class="form-control section-title" name="expertise_sections-{{ loop.index0 }}-title" value="{{ section.title.data }}" placeholder="Section Title (e.g., Programming, Languages)">
+                                        {{ section.title(class="form-control section-title", placeholder="Section Title (e.g., Programming, Languages)") }}
                                     </div>
                                     <div class="col-md-2">
                                         <button type="button" class="btn btn-outline-danger remove-btn remove-section">Remove Section</button>
@@ -235,15 +235,10 @@
                                     {% for expertise_item in section.items %}
                                         <div class="expertise-item row mb-3">
                                             <div class="col-md-7">
-                                                <input type="text" class="form-control" name="expertise_sections-{{ loop.parent.index0 }}-items-{{ loop.index0 }}-expertise" value="{{ expertise_item.expertise.data }}" placeholder="Expertise (e.g., Python, English)">
+                                                {{ expertise_item.expertise(class="form-control", placeholder="Expertise (e.g., Python, English)") }}
                                             </div>
                                             <div class="col-md-3">
-                                                <select class="form-select" name="expertise_sections-{{ loop.parent.index0 }}-items-{{ loop.index0 }}-level">
-                                                    <option value="">Select Level</option>
-                                                    <option value="1" {% if expertise_item.level.data == '1' %}selected{% endif %}>1</option>
-                                                    <option value="2" {% if expertise_item.level.data == '2' %}selected{% endif %}>2</option>
-                                                    <option value="3" {% if expertise_item.level.data == '3' %}selected{% endif %}>3</option>
-                                                </select>
+                                                {{ expertise_item.level(class="form-select") }}
                                             </div>
                                             <div class="col-md-2">
                                                 <button type="button" class="btn btn-outline-danger remove-btn remove-expertise">Remove</button>
