@@ -288,23 +288,44 @@
 
         function addWorkExperience() {
             const container = document.getElementById('work-experience-container');
-            const newWorkExperience = container.children[0].cloneNode(true);
-            newWorkExperience.querySelectorAll('input, select').forEach(input => input.value = '');
-            
-            // Clear bullet points
-            const bulletPointsContainer = newWorkExperience.querySelector('.bullet-points-container');
-            bulletPointsContainer.innerHTML = '';
-            
+            const newWorkExperience = document.createElement('div');
+            const workExperienceIndex = container.children.length;
+            newWorkExperience.className = 'work-experience-item card';
+            newWorkExperience.innerHTML = `
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="work_experience-${workExperienceIndex}-period" class="form-label">Period</label>
+                            <input type="text" class="form-control" id="work_experience-${workExperienceIndex}-period" name="work_experience-${workExperienceIndex}-period">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="work_experience-${workExperienceIndex}-function_name" class="form-label">Function Name</label>
+                            <input type="text" class="form-control" id="work_experience-${workExperienceIndex}-function_name" name="work_experience-${workExperienceIndex}-function_name">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="work_experience-${workExperienceIndex}-name_employer_client" class="form-label">Name Employer/Client</label>
+                            <input type="text" class="form-control" id="work_experience-${workExperienceIndex}-name_employer_client" name="work_experience-${workExperienceIndex}-name_employer_client">
+                        </div>
+                    </div>
+                    <h3>Bullet Points</h3>
+                    <div class="bullet-points-container">
+                    </div>
+                    <button type="button" class="btn btn-secondary add-bullet-point mb-3">Add Bullet Point</button>
+                    <button type="button" class="btn btn-outline-danger remove-btn remove-work-experience">Remove Work Experience</button>
+                </div>
+            `;
             container.appendChild(newWorkExperience);
         }
 
         function addBulletPoint(workExperienceItem) {
             const container = workExperienceItem.querySelector('.bullet-points-container');
+            const workExperienceIndex = Array.from(workExperienceItem.parentNode.children).indexOf(workExperienceItem);
+            const bulletPointIndex = container.children.length;
             const newBulletPoint = document.createElement('div');
             newBulletPoint.className = 'bullet-point-item mb-3';
             newBulletPoint.innerHTML = `
                 <div class="input-group">
-                    <input class="form-control" name="work_experience-${container.children.length}-bullet_points-${container.children.length}-bullet_point" placeholder="Enter a bullet point" type="text">
+                    <input class="form-control" name="work_experience-${workExperienceIndex}-bullet_points-${bulletPointIndex}-bullet_point" placeholder="Enter a bullet point" type="text">
                     <button type="button" class="btn btn-danger remove-bullet-point">Remove</button>
                 </div>
             `;
