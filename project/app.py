@@ -1,10 +1,12 @@
-import os
-from flask import Flask, render_template, send_file
-from forms import ProfileForm
 import io
+import os
+
+from werkzeug.utils import secure_filename
+from flask import Flask, render_template, send_file
 from docxtpl import DocxTemplate, InlineImage
 from docx.shared import Mm
-from werkzeug.utils import secure_filename
+
+from forms import ProfileForm
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
@@ -74,6 +76,7 @@ def parse_form_data(form_data, tpl):
             {"category": ex["title"], "list": list(map(parse_expertise, ex["items"]))}
         )
     del form_data["expertise_sections"]
+
     return form_data
 
 
