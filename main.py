@@ -1,4 +1,5 @@
 import io
+import os
 
 from flask import Flask, render_template, send_file
 from docxtpl import DocxTemplate, InlineImage
@@ -74,4 +75,4 @@ def parse_form_data(form_data, tpl):
 
 
 if __name__ == "__main__":
-    app.run(port=8000)
+    app.run(port=os.getenv("PORT", default=8000))
