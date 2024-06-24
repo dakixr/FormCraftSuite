@@ -1,7 +1,6 @@
 import os
 from flask import Flask, render_template, send_file
 from forms import ProfileForm
-import json
 import io
 from docxtpl import DocxTemplate, InlineImage
 from docx.shared import Mm
