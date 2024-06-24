@@ -61,10 +61,16 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
+                        {{ form.function.label(class="form-label") }}
+                        {{ form.function(class="form-control") }}
+                    </div>
+                    <div class="col-md-6">
                         {{ form.date_of_birth.label(class="form-label") }}
                         {{ form.date_of_birth(class="form-control") }}
                     </div>
+                </div>
+                <div class="row mb-3">
                     <div class="col-md-4">
                         {{ form.city.label(class="form-label") }}
                         {{ form.city(class="form-control") }}
@@ -73,12 +79,12 @@
                         {{ form.nationality.label(class="form-label") }}
                         {{ form.nationality(class="form-control") }}
                     </div>
-                </div>
-                <div class="row mb-3">
                     <div class="col-md-4">
                         {{ form.availability.label(class="form-label") }}
                         {{ form.availability(class="form-control") }}
                     </div>
+                </div>
+                <div class="row mb-3">
                     <div class="col-md-4">
                         {{ form.drivers_license.label(class="form-label") }}
                         {{ form.drivers_license(class="form-select") }}

@@ -35,6 +35,7 @@ class ExpertiseSectionForm(FlaskForm):
     items = FieldList(FormField(ExpertiseForm), min_entries=1, max_entries=10)
 
 class ProfileForm(FlaskForm):
+    function = StringField('Function Name', validators=[DataRequired()])
     first_name = StringField('First Name', validators=[DataRequired()])
     surname = StringField('Surname', validators=[DataRequired()])
     date_of_birth = DateField('Date of Birth', format='%Y-%m-%d', validators=[DataRequired()])
