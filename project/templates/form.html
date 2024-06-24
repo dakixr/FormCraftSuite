@@ -154,13 +154,18 @@
                                 </div>
                             </div>
                             <h3>Bullet Points</h3>
-                            {% for bullet_point_form in work_experience_form.bullet_points %}
-                                <div class="mb-3">
-                                    {{ bullet_point_form.bullet_point.label(class="form-label") }}
-                                    {{ bullet_point_form.bullet_point(class="form-control") }}
-                                </div>
-                            {% endfor %}
-                            <button type="button" class="btn btn-danger remove-work-experience">Remove</button>
+                            <div class="bullet-points-container">
+                                {% for bullet_point_form in work_experience_form.bullet_points %}
+                                    <div class="bullet-point-item mb-3">
+                                        <div class="input-group">
+                                            {{ bullet_point_form.bullet_point(class="form-control") }}
+                                            <button type="button" class="btn btn-danger remove-bullet-point">Remove</button>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <button type="button" class="btn btn-secondary add-bullet-point mb-3">Add Bullet Point</button>
+                            <button type="button" class="btn btn-danger remove-work-experience">Remove Work Experience</button>
                         </div>
                     </div>
                 {% endfor %}
@@ -170,34 +175,44 @@
             <h2 class="mt-4">Programming Expertise</h2>
             <div id="programming-expertise-container">
                 {% for expertise_form in form.expertise_programming %}
-                    <div class="row mb-3">
-                        <div class="col-md-8">
+                    <div class="expertise-item row mb-3">
+                        <div class="col-md-7">
                             {{ expertise_form.expertise.label(class="form-label") }}
                             {{ expertise_form.expertise(class="form-control") }}
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             {{ expertise_form.level.label(class="form-label") }}
                             {{ expertise_form.level(class="form-select") }}
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">&nbsp;</label>
+                            <button type="button" class="btn btn-danger remove-expertise form-control">Remove</button>
                         </div>
                     </div>
                 {% endfor %}
             </div>
+            <button type="button" class="btn btn-primary mb-3" id="add-programming-expertise">Add Programming Expertise</button>
 
             <h2 class="mt-4">Language Expertise</h2>
             <div id="language-expertise-container">
                 {% for expertise_form in form.expertise_languages %}
-                    <div class="row mb-3">
-                        <div class="col-md-8">
+                    <div class="expertise-item row mb-3">
+                        <div class="col-md-7">
                             {{ expertise_form.expertise.label(class="form-label") }}
                             {{ expertise_form.expertise(class="form-control") }}
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             {{ expertise_form.level.label(class="form-label") }}
                             {{ expertise_form.level(class="form-select") }}
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">&nbsp;</label>
+                            <button type="button" class="btn btn-danger remove-expertise form-control">Remove</button>
                         </div>
                     </div>
                 {% endfor %}
             </div>
+            <button type="button" class="btn btn-primary mb-3" id="add-language-expertise">Add Language Expertise</button>
 
             <button type="submit" class="btn btn-success mt-4">Submit</button>
         </form>
@@ -235,13 +250,40 @@
             const container = document.getElementById('work-experience-container');
             const newWorkExperience = container.children[0].cloneNode(true);
             newWorkExperience.querySelectorAll('input, select').forEach(input => input.value = '');
+            
+            // Clear bullet points
+            const bulletPointsContainer = newWorkExperience.querySelector('.bullet-points-container');
+            bulletPointsContainer.innerHTML = '';
+            
             container.appendChild(newWorkExperience);
+        }
+
+        function addBulletPoint(workExperienceItem) {
+            const container = workExperienceItem.querySelector('.bullet-points-container');
+            const newBulletPoint = document.createElement('div');
+            newBulletPoint.className = 'bullet-point-item mb-3';
+            newBulletPoint.innerHTML = `
+                <div class="input-group">
+                    <input class="form-control" name="work_experience-${container.children.length}-bullet_points-${container.children.length}-bullet_point" placeholder="Enter a bullet point" type="text">
+                    <button type="button" class="btn btn-danger remove-bullet-point">Remove</button>
+                </div>
+            `;
+            container.appendChild(newBulletPoint);
+        }
+
+        function addExpertise(containerId) {
+            const container = document.getElementById(containerId);
+            const newExpertise = container.children[0].cloneNode(true);
+            newExpertise.querySelectorAll('input, select').forEach(input => input.value = '');
+            container.appendChild(newExpertise);
         }
 
         document.getElementById('add-highlight').addEventListener('click', addHighlight);
         document.getElementById('add-education').addEventListener('click', addEducation);
         document.getElementById('add-course').addEventListener('click', addCourse);
         document.getElementById('add-work-experience').addEventListener('click', addWorkExperience);
+        document.getElementById('add-programming-expertise').addEventListener('click', () => addExpertise('programming-expertise-container'));
+        document.getElementById('add-language-expertise').addEventListener('click', () => addExpertise('language-expertise-container'));
 
         document.addEventListener('click', function(e) {
             if (e.target && e.target.classList.contains('remove-highlight')) {
@@ -262,6 +304,21 @@
             if (e.target && e.target.classList.contains('remove-work-experience')) {
                 if (document.querySelectorAll('.work-experience-item').length > 1) {
                     e.target.closest('.work-experience-item').remove();
+                }
+            }
+            if (e.target && e.target.classList.contains('add-bullet-point')) {
+                addBulletPoint(e.target.closest('.work-experience-item'));
+            }
+            if (e.target && e.target.classList.contains('remove-bullet-point')) {
+                const bulletPointsContainer = e.target.closest('.bullet-points-container');
+                if (bulletPointsContainer.children.length > 1) {
+                    e.target.closest('.bullet-point-item').remove();
+                }
+            }
+            if (e.target && e.target.classList.contains('remove-expertise')) {
+                const expertiseContainer = e.target.closest('.row').parentElement;
+                if (expertiseContainer.children.length > 1) {
+                    e.target.closest('.expertise-item').remove();
                 }
             }
         });
