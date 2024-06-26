@@ -1,7 +1,9 @@
 import io
 import os
 
-from flask import Flask, render_template, send_file
+from flask import Flask, render_template, send_file, request
+import json
+
 from docxtpl import DocxTemplate, InlineImage
 from docx.shared import Mm
 
@@ -10,6 +12,15 @@ from forms import ProfileForm
 app = Flask(__name__)
 app.secret_key = "234hj32v4k32b4jb32lj4b32lj4"
 app.config["WTF_CSRF_ENABLED"] = False  # Disable CSRF protection
+
+
+@app.route("/test", methods=["GET","POST"])
+def test():
+    if request.method == 'POST':
+        print(request.form.to_dict())
+        return "Okis"
+
+    return render_template("test.html")
 
 
 @app.route("/", methods=["GET"])
@@ -75,4 +86,4 @@ def parse_form_data(form_data, tpl):
 
 
 if __name__ == "__main__":
-    app.run(port=os.getenv("PORT", default=8000))
+    app.run(port=os.getenv("PORT", default=8000), debug=True)
