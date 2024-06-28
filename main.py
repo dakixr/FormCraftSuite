@@ -115,16 +115,13 @@ def parse_data(data, tpl):
     )
 
     # Transform expertise sections
-    def parse_expertise(e_expertise: dict) -> dict:
-        d = {"name": e_expertise["category"], "basic": "", "good": "", "excellent": ""}
-        level = e_expertise["level"]
-        if level == "1":
-            d["basic"] = "X"
-        elif level == "2":
-            d["good"] = "X"
-        elif level == "3":
-            d["excellent"] = "X"
-        return d
+    def parse_expertise(ex: dict) -> dict:
+        return {
+            "name": ex["category"], 
+            "basic": "X" if ex["level"] == "1" else "", 
+            "good": "X" if ex["level"] == "2" else "", 
+            "excellent": "X" if ex["level"] == "3" else "",
+        }
 
     expertise = data.get("expertise")
     if expertise:
