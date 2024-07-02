@@ -1,12 +1,11 @@
-import io
 import os
 
-from flask import Flask, render_template, send_file, request
+from flask import Flask, render_template, request
 
 from docxtpl import DocxTemplate, InlineImage
 from docx.shared import Mm
 
-from utils import unflatten_dict
+from utils import render_and_send_file, unflatten_dict
 
 # Config
 
@@ -51,15 +50,10 @@ def employeneur_profile_form():
         for ex in expertise:
             ex["list"] = list(map(parse_expertise, ex["list"]))
 
-    # Generate CV
-    tpl.render(data)
-    cv_buffer = io.BytesIO()
-    tpl.save(cv_buffer)
-    cv_buffer.seek(0)
-
-    # Return CV
-    return send_file(
-        cv_buffer, as_attachment=True, download_name="TMC Generated CV.docx"
+    return render_and_send_file(
+        data=data,
+        tpl=tpl,
+        download_name="TMC Generated CV.docx",
     )
 
 
@@ -71,25 +65,18 @@ def qm_meeting_report():
     # Parse data
     tpl = DocxTemplate("qm-template.docx")
     data = unflatten_dict(request.form.to_dict())
-    
+
     def concat_list(l: None | list):
         if l is None:
             return ""
         return ", ".join(l)
-    
+
     for attr in ("tmc_attendees", "company_attendees"):
         data[attr] = concat_list(data.get(attr))
 
-    # Generate docx
-    tpl.render(data)
-    cv_buffer = io.BytesIO()
-    tpl.save(cv_buffer)
-    cv_buffer.seek(0)
-
-    # Return CV
-    return send_file(
-        cv_buffer,
-        as_attachment=True,
+    return render_and_send_file(
+        data=data,
+        tpl=tpl,
         download_name="Qualifications Meeting Report.docx",
     )
 

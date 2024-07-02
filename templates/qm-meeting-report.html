@@ -1,202 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Qualifications Meeting</title>
-    <script
-      src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js"
-      defer
-    ></script>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-      body {
-        background-color: #f8f9fa;
-      }
-      .container {
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        padding: 30px;
-        margin-top: 30px;
-        margin-bottom: 30px;
-      }
-      h1,
-      h4 {
-        color: #000000;
-        margin-bottom: 20px;
-      }
-      .section {
-        background-color: #f8f9fa;
-        border-radius: 5px;
-        padding: 20px;
-        margin-bottom: 30px;
-      }
-      .btn-add {
-        margin-bottom: 20px;
-      }
-      .card {
-        margin-bottom: 20px;
-      }
-      .card-body {
-        padding: 20px;
-      }
-      .remove-btn {
-        width: 100%;
-      }
+        body { background-color: #f8f9fa; }
+        .container { background-color: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 30px; margin-top: 30px; margin-bottom: 30px; }
+        h1, h4 { color: #000000; margin-bottom: 20px; }
+        .section { background-color: #f8f9fa; border-radius: 5px; padding: 20px; margin-bottom: 30px; }
+        .btn-add { margin-bottom: 20px; }
+        .card { margin-bottom: 20px; }
+        .card-body { padding: 20px; }
+        .remove-btn { width: 100%; }
     </style>
-  </head>
-  <body>
-    <div
-      class="container"
-      x-data="{ company_attendees: [{}], tmc_attendees: [{}], session_topics: [{},{},{}] }"
-    >
-      <h1 class="text-center mb-4">Meeting Data Form</h1>
-      <form method="post" enctype="multipart/form-data">
-        <div class="section">
-          <h4>Meeting Information</h4>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label class="form-label">Date</label>
-              <input type="datetime-local" class="form-control" name="date" />
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Company Name</label>
-              <input type="text" class="form-control" name="company_name" />
-            </div>
-          </div>
-          <div class="section">
-            <h4>Company Attendees</h4>
-            <template
-              x-for="(attendee, index) in company_attendees"
-              :key="index"
-            >
-              <div class="attendee-item mb-3">
-                <div class="input-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    :name="'company_attendees[' + index + ']'"
-                  />
-                  <button
-                    type="button"
-                    class="btn btn-outline-danger"
-                    @click="company_attendees.splice(index, 1)"
-                  >
-                    Remove
-                  </button>
+</head>
+<body>
+    <div class="container" x-data="{ company_attendees: [{}], tmc_attendees: [{}], session_topics: [{},{},{}] }">
+        <h1 class="text-center mb-4">Qualifications Meeting Form</h1>
+        <form method="post" enctype="multipart/form-data">
+            <div class="section">
+                <h4>Meeting Information</h4>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Date and Time</label>
+                        <input type="datetime-local" class="form-control" name="date_time">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Company Name</label>
+                        <input type="text" class="form-control" name="company_name">
+                    </div>
                 </div>
-              </div>
-            </template>
-            <button
-              type="button"
-              class="btn btn-primary btn-add"
-              @click="company_attendees.push({})"
-            >
-              Add Company Attendee
-            </button>
-          </div>
-
-          <div class="section">
-            <h4>TMC Attendees</h4>
-            <template x-for="(attendee, index) in tmc_attendees" :key="index">
-              <div class="attendee-item mb-3">
-                <div class="input-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    :name="'tmc_attendees[' + index + ']'"
-                  />
-                  <button
-                    type="button"
-                    class="btn btn-outline-danger"
-                    @click="tmc_attendees.splice(index, 1)"
-                  >
-                    Remove
-                  </button>
-                </div>
-              </div>
-            </template>
-            <button
-              type="button"
-              class="btn btn-primary btn-add"
-              @click="tmc_attendees.push({})"
-            >
-              Add TMC Attendee
-            </button>
-          </div>
-        </div>
-        <div class="section">
-          <div class="mb-3">
-            <label class="form-label">Company Description</label>
-            <textarea
-              class="form-control"
-              rows="4"
-              name="company_description"
-            ></textarea>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Company Organisation</label>
-            <textarea
-              class="form-control"
-              rows="4"
-              name="company_organisation"
-            ></textarea>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Project Aim & Description</label>
-            <textarea
-              class="form-control"
-              rows="4"
-              name="project_aim_and_description"
-            ></textarea>
-          </div>
-
-          <h4>Session Topics</h4>
-          <template x-for="(topic, index) in session_topics" :key="index">
-            <div class="session-topic-item mb-3">
-              <div class="input-group">
-                <input
-                  type="text"
-                  class="form-control"
-                  :name="'session_topics[' + index + ']'"
-                />
-                <button
-                  type="button"
-                  class="btn btn-outline-danger"
-                  @click="session_topics.splice(index, 1)"
-                >
-                  Remove
-                </button>
-              </div>
             </div>
-          </template>
-          <button
-            type="button"
-            class="btn btn-primary btn-add"
-            @click="session_topics.push({})"
-          >
-            Add Session Topic
-          </button>
 
-          <div class="mb-3">
-            <label class="form-label">What Can I Bring?</label>
-            <textarea
-              class="form-control"
-              rows="4"
-              name="what_can_i_bring"
-            ></textarea>
-          </div>
-        </div>
+            <div class="section">
+                <h4>Company Attendees</h4>
+                <template x-for="(attendee, index) in company_attendees" :key="index">
+                    <div class="attendee-item mb-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" :name="'company_attendees[' + index + ']'">
+                            <button type="button" class="btn btn-outline-danger" @click="company_attendees.splice(index, 1)">Remove</button>
+                        </div>
+                    </div>
+                </template>
+                <button type="button" class="btn btn-primary btn-add" @click="company_attendees.push({})">Add Company Attendee</button>
+            </div>
 
-        <button type="submit" class="btn btn-success btn-lg w-100">
-          Submit
-        </button>
+            <div class="section">
+                <h4>TMC Attendees</h4>
+                <template x-for="(attendee, index) in tmc_attendees" :key="index">
+                    <div class="attendee-item mb-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" :name="'tmc_attendees[' + index + ']'">
+                            <button type="button" class="btn btn-outline-danger" @click="tmc_attendees.splice(index, 1)">Remove</button>
+                        </div>
+                    </div>
+                </template>
+                <button type="button" class="btn btn-primary btn-add" @click="tmc_attendees.push({})">Add TMC Attendee</button>
+            </div>
 
-      </form>
+            <div class="section">
+                <h4>Session Topics</h4>
+                <template x-for="(topic, index) in session_topics" :key="index">
+                    <div class="session-topic-item mb-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" :name="'session_topics[' + index + ']'">
+                            <button type="button" class="btn btn-outline-danger" @click="session_topics.splice(index, 1)">Remove</button>
+                        </div>
+                    </div>
+                </template>
+                <button type="button" class="btn btn-primary btn-add" @click="session_topics.push({})">Add Session Topic</button>
+            </div>
+
+            <div class="section">
+                <h4>Company Information</h4>
+                <div class="mb-3">
+                    <label class="form-label">Company Description</label>
+                    <textarea class="form-control" rows="4" name="company_description"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Company Organisation</label>
+                    <textarea class="form-control" rows="4" name="company_organisation"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Project Aim & Description</label>
+                    <textarea class="form-control" rows="4" name="project_aim_and_description"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">What Can I Bring?</label>
+                    <textarea class="form-control" rows="4" name="what_can_i_bring"></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success btn-lg w-100">Submit</button>
+        </form>
     </div>
-  </body>
+</body>
 </html>

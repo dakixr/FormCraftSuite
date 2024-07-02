@@ -1,4 +1,9 @@
+import io
+from docxtpl import DocxTemplate
 import re
+
+from flask import send_file
+
 
 def unflatten_dict(flat_dict: dict):
     """
@@ -37,6 +42,7 @@ def unflatten_dict(flat_dict: dict):
             'highlights': ['Graduated with honors']
         }
     """
+
     def get_or_create_with_padding(lst, index, default=None):
         """
         Ensures the list has an item at the specified index, extending the list with
@@ -109,3 +115,18 @@ def unflatten_dict(flat_dict: dict):
         set_nested_item(unflattened_dict, keys, value)
 
     return unflattened_dict
+
+
+def render_and_send_file(data: dict, tpl: DocxTemplate, download_name: str):
+    # Generate docx
+    tpl.render(data)
+    cv_buffer = io.BytesIO()
+    tpl.save(cv_buffer)
+    cv_buffer.seek(0)
+
+    # Return CV
+    return send_file(
+        cv_buffer,
+        as_attachment=True,
+        download_name=download_name,
+    )
