@@ -214,7 +214,7 @@
                             <template x-for="(item, itemIndex) in section.items" :key="itemIndex">
                                 <div class="expertise-item row mb-3">
                                     <div class="col-md-7">
-                                        <input type="text" class="form-control" :name="'expertise[' + sectionIndex + '][list][' + itemIndex + '][category]'" placeholder="Expertise (e.g., Python, English)">
+                                        <input type="text" class="form-control" :name="'expertise[' + sectionIndex + '][list][' + itemIndex + '][name]'" placeholder="Expertise (e.g., Python, English)">
                                     </div>
                                     <div class="col-md-3">
                                         <select class="form-select" :name="'expertise[' + sectionIndex + '][list][' + itemIndex + '][level]'">
