@@ -27,7 +27,7 @@ def employeneur_profile_form():
         return render_template("employeneur_profile_form.html")
 
     # Parse data
-    tpl = DocxTemplate("template.docx")
+    tpl = DocxTemplate("docx_templates/cv-template.docx")
     data = unflatten_dict(request.form.to_dict())
 
     # Handle file upload
@@ -63,7 +63,6 @@ def qm_meeting_report():
         return render_template("qm-meeting-report.html")
 
     # Parse data
-    tpl = DocxTemplate("qm-template.docx")
     data = unflatten_dict(request.form.to_dict())
 
     def concat_list(l: None | list):
@@ -76,7 +75,7 @@ def qm_meeting_report():
 
     return render_and_send_file(
         data=data,
-        tpl=tpl,
+        tpl=DocxTemplate("docx_templates/qm-template.docx"),
         download_name="Qualifications Meeting Report.docx",
     )
 
