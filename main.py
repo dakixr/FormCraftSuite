@@ -1,7 +1,7 @@
 import io
 import os
 
-from flask import Flask, redirect, render_template, send_file, request, url_for
+from flask import Flask, render_template, send_file, request
 
 from docxtpl import DocxTemplate, InlineImage
 from docx.shared import Mm
@@ -19,8 +19,7 @@ app.config["WTF_CSRF_ENABLED"] = False  # Disable CSRF protection
 
 @app.route("/")
 def index():
-    return redirect(url_for("employeneur_profile_form"))
-    # return render_template("index.html")
+    return render_template("index.html")
 
 
 @app.route("/employeneur_profile_form", methods=["GET", "POST"])
@@ -63,8 +62,40 @@ def employeneur_profile_form():
         cv_buffer, as_attachment=True, download_name="TMC Generated CV.docx"
     )
 
+
+@app.route("/qm-meeting-report", methods=["GET", "POST"])
+def qm_meeting_report():
+    if request.method == "GET":
+        return render_template("qm-meeting-report.html")
+
+    # Parse data
+    tpl = DocxTemplate("qm-template.docx")
+    data = unflatten_dict(request.form.to_dict())
+    
+    def concat_list(l: None | list):
+        if l is None:
+            return ""
+        return ", ".join(l)
+    
+    for attr in ("tmc_attendees", "company_attendees"):
+        data[attr] = concat_list(data.get(attr))
+
+    # Generate docx
+    tpl.render(data)
+    cv_buffer = io.BytesIO()
+    tpl.save(cv_buffer)
+    cv_buffer.seek(0)
+
+    # Return CV
+    return send_file(
+        cv_buffer,
+        as_attachment=True,
+        download_name="Qualifications Meeting Report.docx",
+    )
+
+
 if __name__ == "__main__":
     app.run(
         port=os.getenv("PORT", default=8000),
-        # debug=True,
+        debug=True,
     )
