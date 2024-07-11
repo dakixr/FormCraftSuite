@@ -6,10 +6,7 @@
   <div class="container">
     <h1>Choose CV File to Transform</h1>
     <div class="section">
-      <form hx-post="{{ url_for('employeneur_profile_form_ai') }}"
-            hx-encoding="multipart/form-data"
-            hx-swap="none"
-            id="pdf-upload-form">
+      <form method="post" enctype="multipart/form-data">
         <div class="mb-3">
           <label for="pdfFile" class="form-label">Select PDF File</label>
           <input type="file"

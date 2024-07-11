@@ -66,8 +66,8 @@ def employeneur_profile_form_ai():
         return render_template("employeneur_profile_form_ai.html")
     
     cv = request.files["pdfFile"]
-    data = process_cv(io.BytesIO(cv.stream.read()))
     tpl = DocxTemplate("docx_templates/cv-template.docx")
+    data = process_cv(io.BytesIO(cv.stream.read()))
     
     return render_and_send_file(
         data=data,
