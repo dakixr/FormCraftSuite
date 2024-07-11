@@ -118,6 +118,17 @@ def unflatten_dict(flat_dict: dict):
 
 
 def render_and_send_file(data: dict, tpl: DocxTemplate, download_name: str):
+    """
+    Render a DOCX file from a template using provided data and send it as a downloadable attachment.
+
+    Args:
+        data (dict): The data to render the DOCX template with.
+        tpl (DocxTemplate): The DOCX template to render.
+        download_name (str): The name to use for the downloaded file.
+
+    Returns:
+        Response: A Flask Response object to send the generated DOCX file as a downloadable attachment.
+    """
     # Generate docx
     tpl.render(data)
     cv_buffer = io.BytesIO()
