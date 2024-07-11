@@ -1,10 +1,12 @@
 import os
+import io
 
 from flask import Flask, render_template, request
 
 from docxtpl import DocxTemplate, InlineImage
 from docx.shared import Mm
 
+from pdf_parser import process_cv
 from utils import render_and_send_file, unflatten_dict
 
 # Config
@@ -50,6 +52,23 @@ def employeneur_profile_form():
         for ex in expertise:
             ex["list"] = list(map(parse_expertise, ex["list"]))
 
+    print(data)
+    return render_and_send_file(
+        data=data,
+        tpl=tpl,
+        download_name="TMC Generated CV.docx",
+    )
+
+
+@app.route("/employeneur_profile_form_ai", methods=["GET", "POST"])
+def employeneur_profile_form_ai():
+    if request.method == "GET":
+        return render_template("employeneur_profile_form_ai.html")
+    
+    cv = request.files["pdfFile"]
+    data = process_cv(io.BytesIO(cv.stream.read()))
+    tpl = DocxTemplate("docx_templates/cv-template.docx")
+    
     return render_and_send_file(
         data=data,
         tpl=tpl,

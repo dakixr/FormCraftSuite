@@ -1,0 +1,25 @@
+{% extends "_base.html" %}
+{% block title %}
+  Upload PDF
+{% endblock title %}
+{% block body %}
+  <div class="container">
+    <h1>Choose CV File to Transform</h1>
+    <div class="section">
+      <form hx-post="{{ url_for('employeneur_profile_form_ai') }}"
+            hx-encoding="multipart/form-data"
+            hx-swap="none"
+            id="pdf-upload-form">
+        <div class="mb-3">
+          <label for="pdfFile" class="form-label">Select PDF File</label>
+          <input type="file"
+                 class="form-control"
+                 id="pdfFile"
+                 name="pdfFile"
+                 accept="application/pdf">
+        </div>
+        <button type="submit" class="btn btn-primary">Upload</button>
+      </form>
+    </div>
+  </div>
+{% endblock body %}

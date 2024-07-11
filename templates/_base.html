@@ -25,8 +25,55 @@
     .card { margin-bottom: 20px; }
     .card-body { padding: 20px; }
     .remove-btn { width: 100%; }
+
+        /* Loading Indicator */
+
+    .loading-bar {
+      opacity: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      z-index: 999;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        #1e3a8a,
+        transparent,
+        #93c5fd,
+        transparent
+      );
+    }
+
+    .htmx-request.loading-bar {
+      opacity: 1;
+      animation: fadeIn 0.4s linear forwards, slide 0.8s ease-in-out infinite;
+    }
+    @keyframes slide {
+      0% {
+        transform: translateX(-100%);
+      }
+      100% {
+        transform: translateX(100%);
+      }
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
   </style>
-  <body>
+  <body class="bg-white dark:bg-gray-800" hx-indicator=".loading-bar">
+    <!-- Loading Bar -->
+    <div class="loading-bar"></div>
     {% block body %}
     {% endblock body %}
   </body>
