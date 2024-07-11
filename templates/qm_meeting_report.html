@@ -1,0 +1,99 @@
+{% extends "_base.html" %}
+{% block title %}
+  Qualifications Meeting Form
+{% endblock title %}
+{% block body %}
+  <div class="container"
+       x-data="{ company_attendees: [{}], tmc_attendees: [{}], session_topics: [{},{},{}] }">
+    <h1 class="text-center mb-4">Qualifications Meeting Form</h1>
+    <form method="post" enctype="multipart/form-data">
+      <div class="section">
+        <h4>Meeting Information</h4>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Date and Time</label>
+            <input type="datetime-local" class="form-control" name="date_time">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Company Name</label>
+            <input type="text" class="form-control" name="company_name">
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <h4>Company Attendees</h4>
+        <template x-for="(attendee, index) in company_attendees" :key="index">
+          <div class="attendee-item mb-3">
+            <div class="input-group">
+              <input type="text"
+                     class="form-control"
+                     :name="'company_attendees[' + index + ']'">
+              <button type="button"
+                      class="btn btn-outline-danger"
+                      @click="company_attendees.splice(index, 1)">Remove</button>
+            </div>
+          </div>
+        </template>
+        <button type="button"
+                class="btn btn-primary btn-add"
+                @click="company_attendees.push({})">Add Company Attendee</button>
+      </div>
+      <div class="section">
+        <h4>TMC Attendees</h4>
+        <template x-for="(attendee, index) in tmc_attendees" :key="index">
+          <div class="attendee-item mb-3">
+            <div class="input-group">
+              <input type="text"
+                     class="form-control"
+                     :name="'tmc_attendees[' + index + ']'">
+              <button type="button"
+                      class="btn btn-outline-danger"
+                      @click="tmc_attendees.splice(index, 1)">Remove</button>
+            </div>
+          </div>
+        </template>
+        <button type="button"
+                class="btn btn-primary btn-add"
+                @click="tmc_attendees.push({})">Add TMC Attendee</button>
+      </div>
+      <div class="section">
+        <h4>Session Topics</h4>
+        <template x-for="(topic, index) in session_topics" :key="index">
+          <div class="session-topic-item mb-3">
+            <div class="input-group">
+              <input type="text"
+                     class="form-control"
+                     :name="'session_topics[' + index + ']'">
+              <button type="button"
+                      class="btn btn-outline-danger"
+                      @click="session_topics.splice(index, 1)">Remove</button>
+            </div>
+          </div>
+        </template>
+        <button type="button"
+                class="btn btn-primary btn-add"
+                @click="session_topics.push({})">Add Session Topic</button>
+      </div>
+      <div class="section">
+        <h4>Company Information</h4>
+        <div class="mb-3">
+          <label class="form-label">Company Description</label>
+          <textarea class="form-control" rows="4" name="company_description"></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Company Organisation</label>
+          <textarea class="form-control" rows="4" name="company_organisation"></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Project Aim & Description</label>
+          <textarea class="form-control" rows="4" name="project_aim_and_description"></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">What Can I Bring?</label>
+          <textarea class="form-control" rows="4" name="what_can_i_bring"></textarea>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success btn-lg w-100">Submit</button>
+    </form>
+  </div>
+{% endblock body %}
