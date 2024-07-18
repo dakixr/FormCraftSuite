@@ -89,20 +89,27 @@ def parse_text_to_schema(text: str) -> dict:
     }}
     Ensure the output captures all relevant details accurately and comprehensively from the CV. The lists such as highlights, education, courses, work experience, and expertise should reflect the content of the CV.
     """
-    response = client.chat.completions.create(
-        model="gpt-4o",
-        response_format={"type": "json_object"},
-        messages=[
-            {
-                "role": "user",
-                "content": prompt,
-            }
-        ],
-    )
-    content = response.choices[0].message.content
-    if content is None:
-        raise ValueError("Error when retrieving the api response")
-    return json.loads(content)
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            response_format={"type": "json_object"},
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+            ],
+        )
+        content = response.choices[0].message.content
+
+        if content is None:
+            raise ValueError("Error when retrieving the api response")
+
+        return json.loads(content)
+
+    except Exception as e:
+        print(e)
+        return {}
 
 
 # Main function to handle the process
