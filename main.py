@@ -6,7 +6,7 @@ from flask import Flask, render_template, request
 from docxtpl import DocxTemplate, InlineImage
 from docx.shared import Mm
 
-from pdf_parser import process_cv
+from pdf_parser import name_talent_file, process_cv
 from utils import render_and_send_file, unflatten_dict
 
 # Config
@@ -56,7 +56,7 @@ def employeneur_profile_form():
     return render_and_send_file(
         data=data,
         tpl=tpl,
-        download_name="TMC Generated CV.docx",
+        download_name=name_talent_file(data),
     )
 
 
@@ -73,7 +73,7 @@ def employeneur_profile_form_ai():
     return render_and_send_file(
         data=data,
         tpl=tpl,
-        download_name="TMC Generated CV.docx",
+        download_name=name_talent_file(data),
     )
 
 

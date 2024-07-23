@@ -3,10 +3,31 @@ import os
 import PyPDF2
 from openai import OpenAI
 import json
+from datetime import datetime
+
 
 client = OpenAI(
     api_key=os.environ.get("OPENAI_API_KEY"),
 )
+
+
+def name_talent_file(data: dict):
+    # Talent file DRVersion Daniel Rodriguez version July 2024
+    first_name = data.get("first_name")
+    if not first_name:
+        first_name = "[First Name]"
+        
+    surname = data.get("surname")
+    if not surname:
+        surname = "[Surname]"
+    
+    # Get the current date
+    current_date = datetime.now()
+
+    # Format the date as "Month Year"
+    formatted_date = current_date.strftime("%B %Y")
+
+    return f"Talent file DRVersion {first_name} {surname} version {formatted_date}.docx"
 
 
 # Function to extract text from PDF
