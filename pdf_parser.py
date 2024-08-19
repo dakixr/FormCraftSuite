@@ -93,7 +93,8 @@ def parse_text_to_schema(text: str) -> dict:
                     "Responsibility or Achievement 2",
                     "Responsibility or Achievement 3",
                     "... (additional points)"
-                ]
+                ],
+                "tools_tech_used": "concise list of technologies and/or tools used in this role"
             }},
             "... (additional work experience entries)"
         ],

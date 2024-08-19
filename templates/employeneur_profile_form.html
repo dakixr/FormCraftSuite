@@ -208,7 +208,7 @@
                          :name="'work_experience[' + expIndex + '][name_employer_client]'">
                 </div>
               </div>
-              <h3>Bullet Points</h3>
+              <h4>Bullet Points</h4>
               <template x-for="(point, pointIndex) in exp.bullet_points" :key="pointIndex">
                 <div class="bullet-point-item mb-3">
                   <div class="input-group">
@@ -224,6 +224,13 @@
               <button type="button"
                       class="btn btn-secondary mb-3"
                       @click="exp.bullet_points.push({ text: '' })">Add Bullet Point</button>
+              <div class="mb-3">
+                <label class="form-label">Tools/Technologies Used</label>
+                <textarea class="form-control"
+                          rows="3"
+                          :name="'work_experience[' + expIndex + '][tools_tech_used]'"
+                          placeholder="List the tools/technologies used in this role"></textarea>
+              </div>
               <button type="button"
                       class="btn btn-outline-danger remove-btn"
                       @click="work_experience.splice(expIndex, 1)">Remove Work Experience</button>
