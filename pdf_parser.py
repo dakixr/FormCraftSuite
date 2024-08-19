@@ -109,7 +109,7 @@ def parse_text_to_schema(text: str) -> dict:
             "... (additional expertise categories)"
         ]
         "languages": [
-            {"name": "Language Name", "proficiency": "Skill Level"}, # Skill Levels: Beginner, Intermediate, Advanced, Fluent, Native
+            {{"name": "Language Name", "proficiency": "Skill Level"}}, # Skill Levels: Beginner, Intermediate, Advanced, Fluent, Native
             "... (additional languages)"
     }}
     Ensure the output captures all relevant details accurately and comprehensively from the CV. The lists such as highlights, education, courses, work experience, and expertise should reflect the content of the CV.
