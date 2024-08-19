@@ -4,9 +4,12 @@
 {% endblock title %}
 {% block body %}
   <div class="container"
-       x-data="{ highlights: [], education: [], courses: [], work_experience: [], expertise: [] }">
+       x-data="{ highlights: [], education: [], courses: [], work_experience: [], expertise: [], languages: [] }">
     <h1 class="text-center mb-4">Employeneur Profile Form</h1>
     <form method="post" enctype="multipart/form-data">
+      {#
+        Personal Information
+      #}
       <div class="section">
         <h2>Personal Information</h2>
         <div class="row mb-3">
@@ -62,6 +65,9 @@
           <textarea class="form-control" rows="4" name="profile_and_ambition"></textarea>
         </div>
       </div>
+      {#
+        Highlights
+      #}
       <div class="section">
         <h2>Highlights</h2>
         <template x-for="(highlight, index) in highlights" :key="index">
@@ -78,6 +84,9 @@
                 class="btn btn-primary btn-add"
                 @click="highlights.push({})">Add Highlight</button>
       </div>
+      {#
+        Education
+      #}
       <div class="section">
         <h2>Education</h2>
         <template x-for="(edu, index) in education" :key="index">
@@ -123,6 +132,9 @@
                 class="btn btn-primary btn-add"
                 @click="education.push({})">Add Education</button>
       </div>
+      {#
+        Courses
+      #}
       <div class="section">
         <h2>Courses</h2>
         <template x-for="(course, index) in courses" :key="index">
@@ -168,6 +180,9 @@
                 class="btn btn-primary btn-add"
                 @click="courses.push({})">Add Course</button>
       </div>
+      {#
+        Work Experience
+      #}
       <div class="section">
         <h2>Work Experience</h2>
         <template x-for="(exp, expIndex) in work_experience" :key="expIndex">
@@ -219,6 +234,9 @@
                 class="btn btn-primary btn-add"
                 @click="work_experience.push({ bullet_points: [{},{},{}] })">Add Work Experience</button>
       </div>
+      {#
+        Expertise Sections
+      #}
       <div class="section">
         <h2>Expertise Sections</h2>
         <template x-for="(section, sectionIndex) in expertise" :key="sectionIndex">
@@ -270,6 +288,45 @@
         <button type="button"
                 class="btn btn-primary btn-add"
                 @click="expertise.push({ items: [{},{}] })">Add Expertise Section</button>
+      </div>
+      {#
+        Languages Sections
+      #}
+      <div class="section">
+        <h2>Languages</h2>
+        <template x-for="(language, languageIndex) in languages" :key="languageIndex">
+          <div class="language-item card">
+            <div class="card-body">
+              <div class="row mb-3">
+                <div class="col-md-7">
+                  <input type="text"
+                         class="form-control"
+                         :name="'languages[' + languageIndex + '][name]'"
+                         placeholder="Language (e.g., English, Spanish)">
+                </div>
+                <div class="col-md-3">
+                  <select class="form-select"
+                          :name="'languages[' + languageIndex + '][proficiency]'">
+                    <option value="">Select Proficiency</option>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                    <option value="Fluent">Fluent</option>
+                    <option value="Native">Native</option>
+                  </select>
+                </div>
+                <div class="col-md-2">
+                  <button type="button"
+                          class="btn btn-outline-danger remove-btn"
+                          @click="languages.splice(languageIndex, 1)">Remove</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+        <button type="button"
+                class="btn btn-primary btn-add"
+                @click="languages.push({})">Add Language</button>
       </div>
       <button type="submit" class="btn btn-success btn-lg w-100">Submit</button>
     </form>
