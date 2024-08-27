@@ -1,5 +1,6 @@
 import io
 import os
+from textwrap import dedent
 import PyPDF2
 from openai import OpenAI
 import json
@@ -41,14 +42,38 @@ def extract_text_from_pdf(pdf: io.BytesIO) -> str:
 
 
 # Function to parse extracted text and format into schema
-def parse_text_to_schema(text: str) -> dict:
+def parse_text_to_schema(text: str, job_description: str | None) -> dict:
+    job_description_section = ""
+    if job_description:
+        job_description_section = f"""
+        Task: 
+        
+        Your goal is to optimize the provided CV to match the job description as closely as possible. 
+        You need to tailor the CV, emphasizing relevant skills, experiences, and accomplishments that align with the job requirements. 
+        This might involve extrapolating or rephrasing content from the CV to ensure it stands out as the best candidate for the position.
+        
+        Review the Job Description:
+        Carefully read the job description provided below. 
+        Identify the key skills, experiences, and qualifications required for the role.
+        
+        The job description is:
+        '''
+        {job_description}
+        ''''
+        
+        """
+    
     prompt = f"""
-    Please read the following text extracted from a CV and create a detailed output following the schema below. The lists can have an arbitrary length based on the content of the CV. 
+    {job_description_section}
+    Please read the following text extracted from a CV and create a detailed output following the schema below. 
+    The lists can have an arbitrary length based on the content of the CV. 
 
-    The text is:
+    Text extracted from a CV:
+    '''
     {text}
-
-    The output should be structured as follows (json format):
+    '''
+    
+    The output must be structured as follows (json format):
     {{
         "first_name": "First Name from CV",
         "surname": "Surname from CV",
@@ -121,7 +146,7 @@ def parse_text_to_schema(text: str) -> dict:
             messages=[
                 {
                     "role": "user",
-                    "content": prompt,
+                    "content": dedent(prompt),
                 }
             ],
         )
@@ -138,6 +163,6 @@ def parse_text_to_schema(text: str) -> dict:
 
 
 # Main function to handle the process
-def process_cv(pdf: io.BytesIO) -> dict:
+def process_cv(pdf: io.BytesIO, job_description: str | None) -> dict:
     text = extract_text_from_pdf(pdf)
-    return parse_text_to_schema(text)
+    return parse_text_to_schema(text, job_description)

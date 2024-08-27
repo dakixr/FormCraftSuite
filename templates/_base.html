@@ -16,64 +16,107 @@
           rel="stylesheet">
     <script src="https://unpkg.com/htmx.org@2.0.0"></script>
   </head>
+  {% set accent_color = "#ECECEC" %}
   <style>
-    body { background-color: #f8f9fa; }
-    .container { background-color: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 30px; margin-top: 30px; margin-bottom: 30px; }
-    h1, h2 { color: #000000; margin-bottom: 20px; }
-    .section { background-color: #f8f9fa; border-radius: 5px; padding: 20px; margin-bottom: 30px; }
-    .btn-add { margin-bottom: 20px; }
-    .card { margin-bottom: 20px; }
-    .card-body { padding: 20px; }
-    .remove-btn { width: 100%; }
+      body {
+          background-color: white;
+      }
 
-        /* Loading Indicator */
+      .container {
+          background-color: {{ accent_color }};
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          padding: 30px;
+          margin-top: 30px;
+          margin-bottom: 30px;
+      }
 
-    .loading-bar {
-      opacity: 0;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      z-index: 999;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        #1e3a8a,
-        transparent,
-        #93c5fd,
-        transparent
-      );
-    }
+      h1,
+      h2 {
+          color: #000000;
+          margin-bottom: 20px;
+      }
 
-    .htmx-request.loading-bar {
-      opacity: 1;
-      animation: fadeIn 0.4s linear forwards, slide 0.8s ease-in-out infinite;
-    }
-    @keyframes slide {
-      0% {
-        transform: translateX(-100%);
+      .section {
+          background-color: {{ accent_color }};
+          border-radius: 5px;
+          padding: 20px;
+          margin-bottom: 30px;
       }
-      100% {
-        transform: translateX(100%);
-      }
-    }
 
-    @keyframes fadeIn {
-      0% {
-        opacity: 0;
+      .btn-add {
+          margin-bottom: 20px;
       }
-      50% {
-        opacity: 0;
+
+      .card {
+          margin-bottom: 20px;
       }
-      100% {
-        opacity: 1;
+
+      .card-body {
+          padding: 20px;
       }
-    }
+
+      .remove-btn {
+          width: 100%;
+      }
+
+      /* Loading Indicator */
+
+      .loading-bar {
+          opacity: 0;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 4px;
+          z-index: 999;
+          background: linear-gradient(90deg,
+                  transparent,
+                  #1e3a8a,
+                  transparent,
+                  #93c5fd,
+                  transparent);
+      }
+
+      .htmx-request.loading-bar {
+          opacity: 1;
+          animation: fadeIn 0.4s linear forwards, slide 0.8s ease-in-out infinite;
+      }
+
+      @keyframes slide {
+          0% {
+              transform: translateX(-100%);
+          }
+
+          100% {
+              transform: translateX(100%);
+          }
+      }
+
+      @keyframes fadeIn {
+          0% {
+              opacity: 0;
+          }
+
+          50% {
+              opacity: 0;
+          }
+
+          100% {
+              opacity: 1;
+          }
+      }
   </style>
-  <body class="bg-white dark:bg-gray-800" hx-indicator=".loading-bar">
+  <body hx-indicator=".loading-bar">
     <!-- Loading Bar -->
     <div class="loading-bar"></div>
+    {% block navbar %}
+      <nav hx-boost="true" class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <a class="navbar-brand" href="{{ url_for('index') }}">⬅</a>
+        </div>
+      </nav>
+    {% endblock navbar %}
     {% block body %}
     {% endblock body %}
   </body>

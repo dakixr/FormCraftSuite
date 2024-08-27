@@ -5,17 +5,51 @@
 {% block body %}
   <div class="container">
     <h1>Choose CV File to Transform</h1>
+    <div class="alert alert-info">
+      <p>
+        <strong>Please note:</strong>
+      </p>
+      <ul>
+        {# <li>The only required input is your CV. All other fields are optional.</li> #}
+        <li>This Service will not store any data. Please save the CV after completing the form.</li>
+      </ul>
+    </div>
     <div class="section">
       <form method="post" enctype="multipart/form-data">
         <div class="mb-3">
-          <label for="pdfFile" class="form-label">Select PDF File</label>
+          <label for="pdfFile" class="form-label">Select PDF File (Required)</label>
           <input type="file"
                  class="form-control"
                  id="pdfFile"
                  name="pdfFile"
-                 accept="application/pdf">
+                 accept="application/pdf"
+                 required>
         </div>
-        <button type="submit" class="btn btn-primary">Upload</button>
+        {# <div class="mb-3">
+          <label for="profilePicture" class="form-label">Upload Profile Picture (Optional)</label>
+          <input type="file"
+                 class="form-control"
+                 id="profilePicture"
+                 name="profilePicture"
+                 accept="image/*">
+        </div> #}
+        {# <div class="mb-3">
+          <label for="instructions" class="form-label">Additional Instructions (Optional)</label>
+          <textarea class="form-control"
+                    id="instructions"
+                    name="instructions"
+                    rows="3"
+                    placeholder="Enter any specific instructions or preferences you have..."></textarea>
+        </div> #}
+        <div class="mb-3">
+          <label for="jobDescription" class="form-label">Job Description (Optional)</label>
+          <textarea class="form-control"
+                    id="jobDescription"
+                    name="jobDescription"
+                    rows="5"
+                    placeholder="Paste the job description here..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Generate CV</button>
       </form>
     </div>
   </div>
