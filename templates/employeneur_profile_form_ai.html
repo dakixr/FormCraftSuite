@@ -3,19 +3,18 @@
   Upload PDF
 {% endblock title %}
 {% block body %}
-  <div class="container">
+  <div class="container" x-data="formHandler()">
     <h1>Choose CV File to Transform</h1>
     <div class="alert alert-info">
       <p>
         <strong>Please note:</strong>
       </p>
       <ul>
-        {# <li>The only required input is your CV. All other fields are optional.</li> #}
         <li>This Service will not store any data. Please save the CV after completing the form.</li>
       </ul>
     </div>
     <div class="section">
-      <form method="post" enctype="multipart/form-data">
+      <form id="uploadForm" method="post" enctype="multipart/form-data" action="{{ url_for('employeneur_profile_form_ai') }}" @submit.prevent="submitForm">
         <div class="mb-3">
           <label for="pdfFile" class="form-label">Select PDF File (Required)</label>
           <input type="file"
@@ -25,22 +24,6 @@
                  accept="application/pdf"
                  required>
         </div>
-        {# <div class="mb-3">
-          <label for="profilePicture" class="form-label">Upload Profile Picture (Optional)</label>
-          <input type="file"
-                 class="form-control"
-                 id="profilePicture"
-                 name="profilePicture"
-                 accept="image/*">
-        </div> #}
-        {# <div class="mb-3">
-          <label for="instructions" class="form-label">Additional Instructions (Optional)</label>
-          <textarea class="form-control"
-                    id="instructions"
-                    name="instructions"
-                    rows="3"
-                    placeholder="Enter any specific instructions or preferences you have..."></textarea>
-        </div> #}
         <div class="mb-3">
           <label for="jobDescription" class="form-label">Job Description (Optional)</label>
           <textarea class="form-control"
@@ -49,8 +32,64 @@
                     rows="5"
                     placeholder="Paste the job description here..."></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Generate CV</button>
+        <button type="submit" class="btn btn-primary" :disabled="isLoading">
+          <span x-show="!isLoading">Generate CV</span>
+          <span x-show="isLoading">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Processing...
+          </span>
+        </button>
       </form>
     </div>
   </div>
+
+  <script>
+      function formHandler() {
+      return {
+        isLoading: false,
+        async submitForm(event) {
+          this.isLoading = true;
+          const form = event.target;
+          const formData = new FormData(form);
+
+          try {
+            const response = await fetch(form.action, {
+              method: 'POST',
+              body: formData
+            });
+
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+
+            const contentDisposition = response.headers.get('Content-Disposition');
+            let filename = 'download.pdf';
+            if (contentDisposition) {
+              const filenameMatch = contentDisposition.match(/filename="?([^"]+)"?/i);
+              if (filenameMatch) {
+                filename = filenameMatch[1].replace(/_+$/, ''); // Remove any trailing underscores
+              }
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+
+            alert('File downloaded successfully!');
+          } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while processing your request. Please try again.');
+          } finally {
+            this.isLoading = false;
+          }
+        }
+      };
+    }
+  </script>
 {% endblock body %}
