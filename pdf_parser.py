@@ -5,6 +5,7 @@ import PyPDF2
 from openai import OpenAI
 import json
 from datetime import datetime
+import prompts
 
 
 client = OpenAI(
@@ -12,16 +13,16 @@ client = OpenAI(
 )
 
 
-def name_talent_file(data: dict):
+def name_talent_file(cv: dict):
     # Talent file DRVersion Daniel Rodriguez version July 2024
-    first_name = data.get("first_name")
+    first_name = cv.get("first_name")
     if not first_name:
         first_name = "[First Name]"
-        
-    surname = data.get("surname")
+
+    surname = cv.get("surname")
     if not surname:
         surname = "[Surname]"
-    
+
     # Get the current date
     current_date = datetime.now()
 
@@ -31,7 +32,6 @@ def name_talent_file(data: dict):
     return f"Talent file DRVersion {first_name} {surname} version {formatted_date}.docx"
 
 
-# Function to extract text from PDF
 def extract_text_from_pdf(pdf: io.BytesIO) -> str:
     reader = PyPDF2.PdfReader(pdf)
     text = ""
@@ -41,104 +41,15 @@ def extract_text_from_pdf(pdf: io.BytesIO) -> str:
     return text
 
 
-# Function to parse extracted text and format into schema
-def parse_text_to_schema(text: str, job_description: str | None) -> dict:
-    job_description_section = ""
-    if job_description:
-        job_description_section = f"""
-        Task: 
-        
-        Your goal is to optimize the provided CV to match the job description as closely as possible. 
-        You need to tailor the CV, emphasizing relevant skills, experiences, and accomplishments that align with the job requirements. 
-        This might involve extrapolating or rephrasing content from the CV to ensure it stands out as the best candidate for the position.
-        
-        Review the Job Description:
-        Carefully read the job description provided below. 
-        Identify the key skills, experiences, and qualifications required for the role.
-        
-        The job description is:
-        '''
-        {job_description}
-        ''''
-        
-        """
+def prompt_gpt(prompt: str, schema_definition: str) -> dict:
+    _prompt = f'''
+    {prompt}
     
-    prompt = f"""
-    {job_description_section}
-    Please read the following text extracted from a CV and create a detailed output following the schema below. 
-    The lists can have an arbitrary length based on the content of the CV. 
-
-    Text extracted from a CV:
-    '''
-    {text}
-    '''
-    
-    The output must be structured as follows (json format):
-    {{
-        "first_name": "First Name from CV",
-        "surname": "Surname from CV",
-        "function": "Job Title or Function",
-        "date_of_birth": "YYYY-MM-DD",
-        "city": "City of Residence",
-        "nationality": "Nationality",
-        "availability": "YYYY-MM-DD",
-        "drivers_license": "Yes/No",
-        "profile_and_ambition": "Summary of profile and career ambitions",
-        "highlights": [
-            "Key highlight 1",
-            "Key highlight 2",
-            "Key highlight 3",
-            "... (additional highlights)"
-        ],
-        "education": [
-            {{
-                "period": "Start Year - End Year",
-                "name_education": "Degree or Qualification",
-                "name_school": "Name of Institution",
-                "status": "Completed/In Progress"
-            }},
-            "... (additional education entries)"
-        ],
-        "courses": [
-            {{
-                "period": "Year of Completion",
-                "name_education": "Course Name",
-                "name_school": "Institution/Platform",
-                "status": "Completed/Ongoing"
-            }},
-            "... (additional courses)"
-        ],
-        "work_experience": [
-            {{
-                "period": "Start Year - End Year",
-                "function_name": "Job Title",
-                "name_employer_client": "Employer/Client Name, Location",
-                "bullet_points": [
-                    "Responsibility or Achievement 1",
-                    "Responsibility or Achievement 2",
-                    "Responsibility or Achievement 3",
-                    "... (additional points)"
-                ],
-                "tools_tech_used": "concise list of technologies and/or tools used in this role"
-            }},
-            "... (additional work experience entries)"
-        ],
-        "expertise": [
-            {{
-                "category": "Category Name",
-                "list": [
-                    {{"name": "Skill/Language Name", "basic": "", "good": "", "excellent": "X"}},
-                    "... (additional skills)"
-                ]
-            }},
-            "... (additional expertise categories)"
-        ]
-        "languages": [
-            {{"name": "Language Name", "proficiency": "Skill Level"}}, # Skill Levels: Beginner, Intermediate, Advanced, Fluent, Native
-            "... (additional languages)"
-    }}
-    Ensure the output captures all relevant details accurately and comprehensively from the CV. The lists such as highlights, education, courses, work experience, and expertise should reflect the content of the CV.
+    The output MUST be structured as follows (json format):
     """
+    {schema_definition}
+    """
+    '''
     try:
         response = client.chat.completions.create(
             model="gpt-4o",
@@ -146,23 +57,32 @@ def parse_text_to_schema(text: str, job_description: str | None) -> dict:
             messages=[
                 {
                     "role": "user",
-                    "content": dedent(prompt),
+                    "content": dedent(_prompt),
                 }
             ],
         )
         content = response.choices[0].message.content
-
-        if content is None:
-            raise ValueError("Error when retrieving the api response")
-
-        return json.loads(content)
+        return json.loads(content)  # type: ignore
 
     except Exception as e:
         print(e)
         return {}
 
+###############################################################################
+# Main functions to handle the process
 
-# Main function to handle the process
-def process_cv(pdf: io.BytesIO, job_description: str | None) -> dict:
-    text = extract_text_from_pdf(pdf)
-    return parse_text_to_schema(text, job_description)
+def generate_cv(pdf: io.BytesIO) -> dict:
+    cv_text = extract_text_from_pdf(pdf)
+    return prompt_gpt(
+        prompt=prompts.CV_PARSER_PROMPT.format(cv_text=cv_text),
+        schema_definition=prompts.CV_SCHEMA_DEFINITION,
+    )
+
+
+def generate_cv_front_page(job_description: str, cv: dict) -> dict:
+    return prompt_gpt(
+        prompt=prompts.JOB_DESCRIPTION_PARSER_PROMPT.format(
+            job_description=job_description, cv=cv
+        ),
+        schema_definition=prompts.CV_FRONT_PAGE_SCHEMA_DEFINITION,
+    )

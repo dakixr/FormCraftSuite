@@ -6,7 +6,7 @@ from flask import Flask, render_template, request
 from docxtpl import DocxTemplate, InlineImage
 from docx.shared import Mm
 
-from pdf_parser import name_talent_file, process_cv
+from pdf_parser import name_talent_file, generate_cv_front_page, generate_cv
 from utils import render_and_send_file, unflatten_dict
 
 # Config
@@ -64,18 +64,20 @@ def employeneur_profile_form():
 def employeneur_profile_form_ai():
     if request.method == "GET":
         return render_template("employeneur_profile_form_ai.html")
-    
-    cv = request.files["pdfFile"]
-    form = request.form.to_dict() # Get form data
+
+    cv_pdf = request.files["pdfFile"]
+    form = request.form.to_dict()  # Get form data
     job_description = form.get("jobDescription")
     tpl = DocxTemplate("docx_templates/cv-template.docx")
-    pdf = io.BytesIO(cv.stream.read())
-    data = process_cv(pdf, job_description)
-    
+
+    cv = generate_cv(io.BytesIO(cv_pdf.stream.read()))
+    if job_description:
+        cv.update(generate_cv_front_page(job_description, cv))
+
     return render_and_send_file(
-        data=data,
+        data=cv,
         tpl=tpl,
-        download_name=name_talent_file(data),
+        download_name=name_talent_file(cv),
     )
 
 
