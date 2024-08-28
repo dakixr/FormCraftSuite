@@ -103,7 +103,7 @@ CV_FRONT_PAGE_SCHEMA_DEFINITION = """
         "candidate_name": "Full Name",
         "position_sought": "Position Title",
         "description": "Brief description of relevant experience.",
-        "key_skills": [ "list of key skills relevant to the job description" , ... ],
+        "key_skills": [ "list of top 3 key skills relevant to the job description" , ... ],
         "education_and_qualifications": [ # only the ones relevant to the job description
             {
                 "degree": "Degree Name",
